@@ -80,6 +80,11 @@
     .win-box { background: rgba(35, 160, 74, 0.12); border-color: #23a04a; }
     .loss-box { background: rgba(198, 50, 62, 0.12); border-color: #c6323e; }
     .match-box img { width: 32px; border-radius: 50%; margin-bottom: 5px; }
+    .summary-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+    .summary-card { background: rgba(0,0,0,0.28); border: 1px solid #3c3c41; border-radius: 8px; padding: 14px; min-height: 86px; }
+    .summary-label { color: #a09480; font-size: 0.75rem; margin-bottom: 8px; }
+    .summary-value { color: #fff; font-size: 1.35rem; font-weight: bold; line-height: 1; }
+    .summary-sub { color: #c8aa6e; font-size: 0.75rem; margin-top: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     .rank-card { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 12px; margin-top: 8px; display: flex; align-items: center; gap: 20px; }
     .tier-img { width: 60px; height: 60px; object-fit: contain; }
@@ -128,7 +133,7 @@
       body { padding: 40px 16px 110px; }
       h1 { font-size: 2.1rem; }
       .card { padding: 22px; }
-      .team-grid, .power-stats { grid-template-columns: 1fr; }
+      .team-grid, .power-stats, .summary-grid { grid-template-columns: 1fr; }
       .match-row { flex-wrap: wrap; }
       .match-box { min-width: 84px; }
       .most-row { gap: 8px; }
@@ -166,6 +171,8 @@
 
         <div id="gameAnalysis" class="current-game"></div>
 
+        <div class="section-title">최근 20게임 요약</div>
+        <div id="recentSummary" class="summary-grid"></div>
         <div class="section-title">최근 5경기 KDA</div>
         <div id="matches" class="match-row"></div>
         <div id="rankList"></div>
@@ -301,6 +308,38 @@
       `;
     }
 
+    function renderRecentSummary(summary) {
+      const wrap = document.getElementById('recentSummary');
+      if (!summary || !summary.count) {
+        wrap.innerHTML = '<div class="empty-live" style="grid-column:1/-1">최근 경기 정보가 없습니다.</div>';
+        return;
+      }
+
+      const most = summary.mostPlayed;
+      wrap.innerHTML = `
+        <div class="summary-card">
+          <div class="summary-label">최근 ${summary.count}게임 승률</div>
+          <div class="summary-value">${summary.winRate}%</div>
+          <div class="summary-sub">${summary.wins}승 ${summary.losses}패</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-label">평균 KDA</div>
+          <div class="summary-value">${summary.avgKda}</div>
+          <div class="summary-sub">${summary.avgKills}/${summary.avgDeaths}/${summary.avgAssists}</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-label">최근 폼</div>
+          <div class="summary-value">${summary.winRate >= 60 ? '좋음' : summary.winRate >= 45 ? '보통' : '주의'}</div>
+          <div class="summary-sub">${summary.winRate >= 60 ? '상승세입니다' : summary.winRate >= 45 ? '무난한 흐름입니다' : '최근 패배가 많습니다'}</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-label">많이 한 챔피언</div>
+          <div class="summary-value">${most ? escapeHtml(most.name) : '-'}</div>
+          <div class="summary-sub">${most ? `${most.games}게임 · ${most.wins}승` : '정보 없음'}</div>
+        </div>
+      `;
+    }
+
     async function performSlideSearch() {
       const view = document.getElementById('card-view');
       const card = document.getElementById('card');
@@ -347,8 +386,9 @@
         document.getElementById('pLevel').innerText = `Level ${d.level}`;
 
         renderCurrentGame(d.currentGame, d.name, d.tag);
+        renderRecentSummary(d.recentSummary);
 
-        document.getElementById('matches').innerHTML = d.lastGames.filter(Boolean).map(g => `
+        document.getElementById('matches').innerHTML = d.lastGames.filter(Boolean).slice(0, 5).map(g => `
           <div class="match-box ${g.win ? 'win-box' : 'loss-box'}">
             <img src="${championIcon(g.champ?.id)}" onerror="hideBrokenImage(this)" alt=""><br>
             <b>${g.win ? '승리' : '패배'}</b><br>${g.k}/${g.d}/${g.a}

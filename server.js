@@ -164,6 +164,53 @@ function summarizeTeam(teamId, name, players) {
   };
 }
 
+function buildRecentSummary(games) {
+  const validGames = games.filter(Boolean);
+
+  if (!validGames.length) {
+    return {
+      count: 0,
+      wins: 0,
+      losses: 0,
+      winRate: 0,
+      avgKills: 0,
+      avgDeaths: 0,
+      avgAssists: 0,
+      avgKda: 0,
+      mostPlayed: null
+    };
+  }
+
+  const totals = validGames.reduce((acc, game) => {
+    acc.wins += game.win ? 1 : 0;
+    acc.kills += game.k;
+    acc.deaths += game.d;
+    acc.assists += game.a;
+    const key = game.champ?.id || 'unknown';
+    if (!acc.champions[key]) {
+      acc.champions[key] = { ...game.champ, games: 0, wins: 0 };
+    }
+    acc.champions[key].games += 1;
+    acc.champions[key].wins += game.win ? 1 : 0;
+    return acc;
+  }, { wins: 0, kills: 0, deaths: 0, assists: 0, champions: {} });
+
+  const count = validGames.length;
+  const mostPlayed = Object.values(totals.champions).sort((a, b) => b.games - a.games || b.wins - a.wins)[0] || null;
+
+  return {
+    count,
+    wins: totals.wins,
+    losses: count - totals.wins,
+    winRate: Math.round((totals.wins / count) * 100),
+    avgKills: Number((totals.kills / count).toFixed(1)),
+    avgDeaths: Number((totals.deaths / count).toFixed(1)),
+    avgAssists: Number((totals.assists / count).toFixed(1)),
+    avgKda: Number(((totals.kills + totals.assists) / Math.max(totals.deaths, 1)).toFixed(2)),
+    mostPlayed
+  };
+}
+
 async function buildCurrentGameAnalysis(game, apiKey) {
   const participants = await Promise.all(game.participants.map(async (p) => {
     if (p.bot || !p.puuid) {
@@ -243,7 +290,7 @@ app.get('/api/summoner/:name/:tag', async (req, res) => {
       level: m.championLevel
     }));
 
-    const matchIds = await httpsGet('asia.api.riotgames.com', `/lol/match/v5/matches/by-puuid/${account.puuid}/ids?start=0&count=5`, apiKey).catch(() => []);
+    const matchIds = await httpsGet('asia.api.riotgames.com', `/lol/match/v5/matches/by-puuid/${account.puuid}/ids?start=0&count=20`, apiKey).catch(() => []);
     const lastGames = await Promise.all(matchIds.map(async (id) => {
       try {
         const match = await httpsGet('asia.api.riotgames.com', `/lol/match/v5/matches/${id}`, apiKey);
@@ -269,6 +316,7 @@ app.get('/api/summoner/:name/:tag', async (req, res) => {
       rank,
       mostChampions,
       lastGames,
+      recentSummary: buildRecentSummary(lastGames),
       currentGame,
       ddragonVersion: DDRAGON_VERSION,
       iconUrl: `https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VERSION}/img/profileicon/${summoner.profileIconId}.png`
