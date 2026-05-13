@@ -635,6 +635,10 @@ function pickRank(entries) {
   const totalGames = rank.wins + rank.losses;
   return {
     queueType: rank.queueType,
+    leagueId: rank.leagueId,
+    leagueName: rank.leagueName,
+    leaguePosition: rank.leaguePosition,
+    leagueSize: rank.leagueSize,
     tier: rank.tier,
     rank: rank.rank,
     leaguePoints: rank.leaguePoints,
@@ -642,6 +646,55 @@ function pickRank(entries) {
     losses: rank.losses,
     winRate: totalGames ? Math.round((rank.wins / totalGames) * 100) : 0
   };
+}
+
+async function enrichRanksWithLeaguePosition(entries, apiKey) {
+  return Promise.all((entries || []).map(async (entry) => {
+    if (!entry.leagueId) return entry;
+    try {
+      const league = await cachedHttpsGet('kr.api.riotgames.com', `/lol/league/v4/leagues/${entry.leagueId}`, apiKey, 30 * 60 * 1000);
+      const order = { I: 4, II: 3, III: 2, IV: 1 };
+      const leagueEntries = [...(league.entries || [])].sort((a, b) => {
+        if ((b.leaguePoints || 0) !== (a.leaguePoints || 0)) return (b.leaguePoints || 0) - (a.leaguePoints || 0);
+        return (b.wins || 0) - (a.wins || 0) || (a.losses || 0) - (b.losses || 0) || (order[b.rank] || 0) - (order[a.rank] || 0);
+      });
+      const index = leagueEntries.findIndex(item =>
+        (entry.puuid && item.puuid === entry.puuid) ||
+        (entry.summonerId && item.summonerId === entry.summonerId)
+      );
+      return {
+        ...entry,
+        leagueName: league.name,
+        leaguePosition: index >= 0 ? index + 1 : null,
+        leagueSize: leagueEntries.length || null
+      };
+    } catch (e) {
+      return entry;
+    }
+  }));
+}
+
+function participantPerformanceScore(p) {
+  const challenges = p.challenges || {};
+  return (
+    (p.kills || 0) * 2.4 +
+    (p.assists || 0) * 1.35 -
+    (p.deaths || 0) * 1.15 +
+    (p.totalDamageDealtToChampions || 0) / 950 +
+    (p.goldEarned || 0) / 1200 +
+    (p.visionScore || 0) * 0.22 +
+    (challenges.killParticipation || 0) * 10 +
+    (challenges.damagePerMinute || 0) / 120
+  );
+}
+
+function performanceBadge(match, player) {
+  const teamPlayers = (match.info.participants || []).filter(p => p.teamId === player.teamId);
+  const sorted = teamPlayers
+    .map(p => ({ puuid: p.puuid, score: participantPerformanceScore(p) }))
+    .sort((a, b) => b.score - a.score);
+  if (sorted[0]?.puuid !== player.puuid) return '';
+  return player.win ? 'MVP' : 'ACE';
 }
 
 function rankPower(rank) {
@@ -679,21 +732,29 @@ function buildThreat(rank, championId, currentChampionMastery) {
   const totalRankGames = (rank?.wins || 0) + (rank?.losses || 0);
   const masteryPoints = currentChampionMastery?.points || 0;
 
-  if (rank?.winRate >= 58 && totalRankGames >= 20) {
-    score += 18;
-    reasons.push('승률 높음');
+  if (rank?.winRate >= 62 && totalRankGames >= 25) {
+    score += 24;
+    reasons.push('랭크 승률 매우 높음');
+  } else if (rank?.winRate >= 56 && totalRankGames >= 20) {
+    score += 14;
+    reasons.push('랭크 승률 높음');
   } else if (rank?.winRate <= 45 && totalRankGames >= 20) {
     score -= 10;
-    reasons.push('승률 낮음');
+    reasons.push('랭크 승률 낮음');
   }
 
   if (currentChampionMastery && currentChampionMastery.championId === championId) {
-    if (masteryPoints >= 500000) {
-      score += 16;
+    if (masteryPoints >= 800000) {
+      score += 22;
+      reasons.push('현재 픽 장인급 숙련도');
+    } else if (masteryPoints >= 300000) {
+      score += 15;
       reasons.push('현재 픽 숙련도 높음');
     } else if (masteryPoints >= 100000) {
       score += 8;
       reasons.push('현재 픽 숙련도 있음');
+    } else if (masteryPoints > 0) {
+      reasons.push('현재 픽 경험 있음');
     }
   }
 
@@ -701,8 +762,10 @@ function buildThreat(rank, championId, currentChampionMastery) {
     reasons.push('랭크 정보 없음');
   }
 
-  if (score >= 88) return { label: '위험', level: 'danger', score, reasons };
-  if (score >= 58) return { label: '주의', level: 'warn', score, reasons };
+  if (score >= 105) return { label: '집중 견제', level: 'extreme', score, reasons };
+  if (score >= 86) return { label: '위험', level: 'danger', score, reasons };
+  if (score >= 68) return { label: '주의', level: 'warn', score, reasons };
+  if (score >= 48) return { label: '변수', level: 'steady', score, reasons };
   return { label: '안정', level: 'safe', score, reasons };
 }
 
@@ -941,7 +1004,8 @@ app.get('/api/summoner/:name/:tag', async (req, res) => {
 
     const account = await cachedHttpsGet('asia.api.riotgames.com', `/riot/account/v1/accounts/by-riot-id/${encodeURIComponent(name)}/${encodeURIComponent(tag)}`, apiKey);
     const summoner = await cachedHttpsGet('kr.api.riotgames.com', `/lol/summoner/v4/summoners/by-puuid/${account.puuid}`, apiKey);
-    const rank = await cachedHttpsGet('kr.api.riotgames.com', `/lol/league/v4/entries/by-puuid/${account.puuid}`, apiKey).catch(() => []);
+    const rawRank = await cachedHttpsGet('kr.api.riotgames.com', `/lol/league/v4/entries/by-puuid/${account.puuid}`, apiKey).catch(() => []);
+    const rank = await enrichRanksWithLeaguePosition(rawRank, apiKey);
 
     const mastery = await cachedHttpsGet('kr.api.riotgames.com', `/lol/champion-mastery/v4/champion-masteries/by-puuid/${account.puuid}/top?count=5`, apiKey).catch(() => []);
     const mostChampions = mastery.map(m => ({
@@ -962,7 +1026,8 @@ app.get('/api/summoner/:name/:tag', async (req, res) => {
           position: normalizePosition(p.individualPosition || p.teamPosition),
           k: p.kills,
           d: p.deaths,
-          a: p.assists
+          a: p.assists,
+          badge: performanceBadge(match, p)
         } : null;
       } catch (e) {
         return null;

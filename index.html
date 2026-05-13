@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Muho.lol</title>
+  <title>muho-lol</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -231,6 +231,9 @@
       text-align: center;
       word-break: keep-all;
     }
+    .site-disclaimer span {
+      display: block;
+    }
     .site-disclaimer a {
       color: rgba(200, 170, 110, 0.72);
       text-decoration: none;
@@ -405,9 +408,10 @@
     .lab-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1.1fr 0.85fr; gap: 12px; margin-top: 12px; align-items: stretch; }
     .champion-table, .counter-panel { background: rgba(0,0,0,0.25); border: 1px solid rgba(200,170,110,0.2); border-radius: 8px; overflow: hidden; }
     .champion-table { display: flex; flex-direction: column; }
+    .counter-panel { display: flex; flex-direction: column; }
     #championRows { display: flex; flex-direction: column; }
     .champ-row, .champ-head-grid { display: grid; grid-template-columns: 34px 36px minmax(0, 1fr) 58px 58px 58px; gap: 8px; align-items: center; }
-    .champ-row { padding: 11px 12px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 0.8rem; cursor: pointer; }
+    .champ-row { padding: 9px 12px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 0.78rem; cursor: pointer; }
     .champ-head-grid { width: 100%; padding: 0; }
     .champ-head-title { min-width: 0; justify-self: center; grid-column: 1 / 4; }
     .champ-head-label { position: relative; color: #a09480; font-size: 0.72rem; font-weight: normal; text-align: center; }
@@ -423,7 +427,7 @@
     .champ-tier { display: inline-flex; align-items: center; height: 19px; margin-left: 6px; padding: 0 7px; border-radius: 4px; border: 1px solid rgba(200,170,110,0.35); background: rgba(200,170,110,0.12); color: #c8aa6e; font-size: 0.68rem; font-weight: bold; vertical-align: 1px; }
     .stat-up { color: #58c783; font-weight: bold; }
     .stat-down { color: #ff5c5c; font-weight: bold; }
-    .counter-body { padding: 12px; display: grid; gap: 7px; }
+    .counter-body { flex: 1; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
     .counter-chip { min-height: 34px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: rgba(1,10,19,0.58); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 6px 10px; font-size: 0.8rem; }
     .counter-group-title { color: #fff; font-weight: bold; font-size: 0.78rem; margin-top: 2px; }
     .counter-chip span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -443,7 +447,7 @@
     .metric-row { display: grid; grid-template-columns: 42px minmax(0, 1fr) 42px; gap: 8px; align-items: center; color: #a09480; font-size: 0.72rem; }
     .metric-track { height: 7px; border-radius: 999px; background: rgba(0,0,0,0.35); overflow: hidden; }
     .metric-fill { height: 100%; width: var(--value); border-radius: inherit; background: #c8aa6e; }
-    .rune-card { background: rgba(1,10,19,0.58); border: 1px solid rgba(200,170,110,0.18); border-radius: 8px; padding: 12px; }
+    .rune-card { flex: 1 1 248px; min-height: 248px; display: grid; align-content: center; background: rgba(1,10,19,0.58); border: 1px solid rgba(200,170,110,0.18); border-radius: 8px; padding: 14px; }
     .rune-head { display: flex; justify-content: space-between; gap: 10px; align-items: center; margin-bottom: 10px; color: #fff; font-weight: bold; }
     .rune-head small { color: #a09480; font-weight: normal; }
     .rune-page { display: grid; gap: 14px; }
@@ -452,12 +456,12 @@
     .rune-style-plus { color: #a09480; font-size: 0.75rem; }
     .rune-main-name { color: #f0e6d2; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border: 1px solid rgba(200,170,110,0.24); background: rgba(200,170,110,0.1); border-radius: 6px; padding: 6px 9px; min-width: 0; }
     .rune-board { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-    .rune-column { display: grid; gap: 7px; min-width: 0; }
-    .rune-row { display: flex; justify-content: center; gap: 7px; min-height: 34px; }
-    .rune-icon { width: 31px; height: 31px; border-radius: 50%; background: rgba(0,0,0,0.24); border: 1px solid rgba(255,255,255,0.06); padding: 4px; object-fit: contain; opacity: 0.28; filter: grayscale(1); transition: 0.18s; }
+    .rune-column { display: grid; gap: 8px; min-width: 0; }
+    .rune-row { display: flex; justify-content: center; gap: 7px; min-height: 36px; }
+    .rune-icon { width: 33px; height: 33px; border-radius: 50%; background: rgba(0,0,0,0.24); border: 1px solid rgba(255,255,255,0.06); padding: 4px; object-fit: contain; opacity: 0.28; filter: grayscale(1); transition: 0.18s; }
     .rune-icon.active { opacity: 1; filter: none; border-color: rgba(200,170,110,0.72); box-shadow: 0 0 12px rgba(200,170,110,0.42), inset 0 0 0 1px rgba(240,230,210,0.12); background: rgba(200,170,110,0.12); }
-    .rune-icon.keystone { width: 39px; height: 39px; }
-    .rune-shards { display: grid; gap: 7px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 12px; }
+    .rune-icon.keystone { width: 41px; height: 41px; }
+    .rune-shards { display: grid; gap: 8px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 12px; }
     .pagination { min-height: 38px; display: flex; gap: 6px; justify-content: center; align-items: center; flex-wrap: nowrap; padding: 5px 12px; border-top: 1px solid rgba(255,255,255,0.06); overflow-x: auto; }
     .page-btn { min-width: 32px; height: 28px; display: inline-flex; align-items: center; justify-content: center; padding: 0 9px; border-radius: 4px; background: rgba(0,0,0,0.24); border: 1px solid rgba(200,170,110,0.22); color: #f0e6d2; font-size: 0.78rem; line-height: 1; white-space: nowrap; flex: 0 0 auto; }
     .page-btn span { display: inline-block; transform: translateY(0); }
@@ -518,8 +522,10 @@
     .position-bar { height: 6px; background: #010a13; border-radius: 999px; overflow: hidden; }
     .position-fill { height: 100%; background: #c8aa6e; }
 
-    .match-row { display: flex; gap: 8px; }
-    .match-box { flex: 1; padding: 12px 5px; border-radius: 8px; text-align: center; font-size: 0.75rem; border: 1px solid rgba(255,255,255,0.05); }
+    .match-row { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 8px; }
+    .match-box { position: relative; min-width: 0; padding: 12px 5px; border-radius: 8px; text-align: center; font-size: 0.75rem; border: 1px solid rgba(255,255,255,0.05); }
+    .match-badge { position: absolute; top: 6px; right: 6px; min-width: 30px; height: 18px; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; background: #c8aa6e; color: #010a13; font-size: 0.58rem; font-weight: bold; }
+    .match-badge.ace { background: #ff5c5c; color: #fff; }
     .win-box { background: rgba(35, 160, 74, 0.12); border-color: #23a04a; }
     .loss-box { background: rgba(198, 50, 62, 0.12); border-color: #c6323e; }
     .match-box img, .champ-stat-row img { width: 32px; height: 32px; object-fit: cover; border-radius: 50%; margin-bottom: 5px; }
@@ -530,7 +536,50 @@
     .tier-img { width: 60px; height: 60px; object-fit: contain; }
     .lp-bar-bg { width: 100%; height: 6px; background: #010a13; border-radius: 10px; margin-top: 10px; overflow: hidden; }
     .lp-bar-fill { height: 100%; background: #c8aa6e; transition: width 1s; }
+    .smart-tools { display: grid; grid-template-columns: minmax(0, 0.66fr) minmax(0, 1.34fr); gap: 10px; margin: 0 0 4px; align-items: stretch; }
+    .tool-panel { background: rgba(0,0,0,0.25); border: 1px solid #3c3c41; border-radius: 8px; padding: 13px; min-width: 0; height: 100%; }
+    .tool-panel.wide { grid-column: 1 / -1; }
+    .tool-head { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 10px; color: #fff; font-weight: bold; text-align: center; }
+    .mini-btn { height: 30px; padding: 0 8px; border-radius: 4px; font-size: 0.72rem; white-space: nowrap; }
+    .share-card { min-height: 170px; display: grid; align-content: center; justify-items: center; gap: 6px; color: #a09480; font-size: 0.78rem; line-height: 1.45; text-align: center; }
+    .share-card b { color: #f0e6d2; font-size: 0.92rem; }
+    .compare-shell { width: 100%; margin: 0 auto; }
+    .compare-form { display: grid; grid-template-columns: minmax(0, 0.82fr) minmax(142px, 0.52fr) 52px; gap: 7px; justify-content: stretch; align-items: center; margin-bottom: 9px; }
+    .compare-wrap { position: relative; min-width: 0; }
+    .compare-form input { width: 100%; min-width: 0; height: 34px; padding: 0 28px 0 10px; font-size: 0.8rem; }
+    .compare-form .clear-input { top: 50%; right: 9px; transform: translateY(calc(-50% - 1px)); }
+    .compare-form .mini-btn { transform: translateY(2px); }
+    .compare-result { min-height: 126px; display: grid; grid-template-columns: 1fr; gap: 8px; align-items: stretch; }
+    .compare-card, .recommend-card { background: rgba(1,10,19,0.52); border: 1px solid rgba(255,255,255,0.06); border-radius: 7px; padding: 10px; min-width: 0; }
+    .compare-card b, .recommend-card b { display: block; color: #fff; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .compare-card span { display: block; color: #a09480; font-size: 0.74rem; line-height: 1.45; white-space: normal; overflow: visible; }
+    .compare-card.compact { min-height: 126px; display: grid; align-content: center; text-align: center; }
+    .compare-card.duo { --left-aura: #6f6f75; --right-aura: #6f6f75; position: relative; overflow: hidden; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 8px; background: linear-gradient(90deg, color-mix(in srgb, var(--left-aura) 28%, rgba(1,10,19,0.86)), rgba(200,170,110,0.12) 50%, color-mix(in srgb, var(--right-aura) 28%, rgba(1,10,19,0.86))); border-color: rgba(200,170,110,0.22); }
+    .compare-card.duo::before { content: ""; position: absolute; inset: -35%; opacity: 0.24; background: radial-gradient(circle at 22% 45%, var(--left-aura), transparent 36%), radial-gradient(circle at 78% 45%, var(--right-aura), transparent 36%), radial-gradient(circle at 50% 52%, rgba(240,230,210,0.34), transparent 22%); filter: blur(14px); animation: ambientDrift 8s ease-in-out infinite alternate; }
+    .compare-card.duo > * { position: relative; z-index: 1; }
+    .compare-mini { min-width: 0; min-height: 104px; display: grid; align-content: center; padding: 8px; border-radius: 6px; background: rgba(0,0,0,0.22); text-align: center; border: 1px solid rgba(255,255,255,0.08); }
+    .compare-mini b { display: block; color: #fff; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .compare-mini span { display: block; color: #a09480; font-size: 0.7rem; line-height: 1.35; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .recommend-card span { display: block; color: #a09480; font-size: 0.7rem; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .recommend-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+    .recommend-card { display: grid; grid-template-columns: 28px minmax(0, 1fr); column-gap: 6px; align-items: center; min-height: 54px; padding: 7px; }
+    .recommend-card b { white-space: nowrap; overflow: visible; text-overflow: clip; line-height: 1.2; word-break: keep-all; font-size: 0.74rem; letter-spacing: 0; }
+    .recommend-card img { width: 28px; height: 28px; grid-row: 1 / 3; border-radius: 50%; object-fit: cover; border: 1px solid rgba(200,170,110,0.34); margin-bottom: 0; }
+    .recommend-card.ban-card b { font-size: 0.72rem; }
 
+    .share-card.rank-aura { position: relative; overflow: hidden; border-radius: 7px; border: 1px solid rgba(200,170,110,0.14); background: linear-gradient(135deg, rgba(1,10,19,0.44), color-mix(in srgb, var(--aura) 18%, rgba(1,10,19,0.52)), rgba(1,10,19,0.44)); }
+    .share-card.rank-aura::before { content: ""; position: absolute; inset: -40%; opacity: 0.2; background: radial-gradient(circle at 24% 34%, var(--aura), transparent 34%), radial-gradient(circle at 72% 60%, var(--aura), transparent 38%); filter: blur(15px); animation: ambientDrift 9s ease-in-out infinite alternate; }
+    .share-card.rank-aura > * { position: relative; z-index: 1; }
+    .share-card.tier-CHALLENGER { --aura: #d8f7ff; border-color: rgba(216,247,255,0.62); box-shadow: 0 0 22px rgba(91,217,255,0.28); }
+    .share-card.tier-GRANDMASTER { --aura: #e23b2c; border-color: rgba(226,59,44,0.55); box-shadow: 0 0 20px rgba(226,59,44,0.22); }
+    .share-card.tier-MASTER { --aura: #9b4dff; border-color: rgba(155,77,255,0.58); box-shadow: 0 0 20px rgba(155,77,255,0.24); }
+    .share-card.tier-DIAMOND { --aura: #5765d1; border-color: rgba(87,101,209,0.58); box-shadow: 0 0 20px rgba(87,101,209,0.22); }
+    .share-card.tier-EMERALD { --aura: #00a86b; border-color: rgba(0,168,107,0.58); box-shadow: 0 0 20px rgba(0,168,107,0.22); }
+    .share-card.tier-PLATINUM { --aura: #4e9996; border-color: rgba(78,153,150,0.58); box-shadow: 0 0 20px rgba(78,153,150,0.2); }
+    .share-card.tier-GOLD { --aura: #b7791f; border-color: rgba(183,121,31,0.58); box-shadow: 0 0 20px rgba(183,121,31,0.24); }
+    .share-card.tier-SILVER { --aura: #aeb6bf; border-color: rgba(174,182,191,0.52); box-shadow: 0 0 18px rgba(174,182,191,0.18); }
+    .share-card.tier-BRONZE { --aura: #b0784f; border-color: rgba(176,120,79,0.52); box-shadow: 0 0 18px rgba(176,120,79,0.2); }
+    .share-card.tier-IRON, .share-card.tier-UNRANKED { --aura: #6f6f75; border-color: rgba(111,111,117,0.5); box-shadow: 0 0 16px rgba(111,111,117,0.16); }
     .most-row { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; text-align: center; margin-top: 8px; }
     #mosts { margin-bottom: -8px; }
     .most-item { position: relative; min-width: 0; }
@@ -574,8 +623,10 @@
     .most-text { color: #c8aa6e; font-weight: bold; }
     .threat-cell { text-align: left; min-width: 0; }
     .threat-badge { display: inline-block; border-radius: 4px; padding: 4px 7px; font-size: 0.7rem; font-weight: bold; color: #010a13; }
+    .threat-extreme { background: #c6323e; color: #fff; }
     .threat-danger { background: #ff5c5c; }
     .threat-warn { background: #f4c874; }
+    .threat-steady { background: #72d7ff; }
     .threat-safe { background: #58c783; }
     .threat-reason { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.68rem; }
     .empty-live { color: #a09480; background: rgba(0,0,0,0.25); border: 1px solid #3c3c41; border-radius: 8px; padding: 16px; text-align: center; }
@@ -599,6 +650,10 @@
       .home-hub { grid-template-columns: 1fr; }
       .spotlight-list { grid-template-columns: 1fr; }
       .patch-grid, .meta-grid, .lab-toolbar, .lab-grid { grid-template-columns: 1fr; }
+      .smart-tools, .compare-result, .recommend-grid { grid-template-columns: 1fr; }
+      .tool-panel.wide { grid-column: auto; }
+      .compare-form { grid-template-columns: 1fr; }
+      .compare-shell { width: 100%; }
       .lab-toolbar { gap: 8px; }
       .champ-row { grid-template-columns: 30px 34px minmax(0, 1fr) 54px 54px 54px; font-size: 0.74rem; gap: 7px; }
       .champ-head-grid { grid-template-columns: 30px 34px minmax(0, 1fr) 54px 54px 54px; gap: 7px; }
@@ -606,9 +661,9 @@
       .team-grid, .power-stats, .summary-grid, .analysis-grid { grid-template-columns: 1fr; }
       .power-stat { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .power-stat-title { grid-column: 1 / -1; }
-      .match-row { flex-wrap: wrap; }
+      .match-row { grid-template-columns: repeat(5, minmax(0, 1fr)); }
       .match-box { min-width: 84px; }
-      .most-row { gap: 8px; }
+      .most-row { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
       .player-row { grid-template-columns: 42px minmax(0, 1fr) 58px; }
       .player-rank, .player-most { grid-column: 2 / 4; }
       .threat-cell { grid-column: 3; grid-row: 1; }
@@ -625,7 +680,7 @@
     <div class="title-row">
       <div></div>
       <div class="title-main">
-        <h1>MUHO.LOL</h1>
+        <h1>MUHO-LOL</h1>
         <p class="sub-title">실시간 전적과 인게임 상태를 확인하세요</p>
         <div class="top-tabs">
           <button id="homeTab" class="tab-btn active" type="button" onclick="showHome()">홈</button>
@@ -848,23 +903,23 @@
 
         <div id="rankList"></div>
         <div id="gameAnalysis" class="current-game"></div>
+        <div class="section-title">소환사 비교</div>
+        <div id="smartTools" class="smart-tools"></div>
 
+        <div class="section-title">최근 10경기 KDA</div>
+        <div id="matches" class="match-row"></div>
         <div class="section-title">최근 경기 요약</div>
         <div id="recentSummary" class="summary-grid"></div>
         <div class="section-title">최근 경기 상세 분석</div>
         <div id="deepAnalysis" class="analysis-grid"></div>
-        <div class="section-title">최근 5경기 KDA</div>
-        <div id="matches" class="match-row"></div>
         <div class="section-title">모스트 챔피언</div>
         <div id="mosts" class="most-row"></div>
       </div>
     </div>
 
     <footer class="site-disclaimer">
-      Muho.lol은 친구 및 지인 공유를 위한 비공식 개인 프로젝트입니다.
-      Riot Games가 보증하거나 공식적으로 관여한 서비스가 아니며, Riot Games 및 관련 자산은 Riot Games, Inc.의 상표 또는 등록상표입니다.
-      챔피언 통계 일부는 <a href="https://www.op.gg/" target="_blank" rel="noreferrer">OP.GG</a> 공개 데이터를 참고하며,
-      챔피언 이미지와 정적 게임 데이터는 Riot Data Dragon을 사용합니다.
+      <span>muho-lol은 친구 및 지인 공유를 위한 비공식 개인 프로젝트입니다. Riot Games가 보증하거나 공식적으로 관여한 서비스가 아니며, Riot Games 및 관련 자산은 Riot Games, Inc.의 상표 또는 등록상표입니다.</span>
+      <span>챔피언 통계 일부는 <a href="https://www.op.gg/" target="_blank" rel="noreferrer">OP.GG</a> 공개 데이터를 참고하며, 챔피언 이미지와 정적 게임 데이터는 Riot Data Dragon을 사용합니다.</span>
     </footer>
   </div>
 
@@ -878,11 +933,12 @@
     let selectedChampionKey = '';
     let selectedChampionRole = 'all';
     let currentProfile = null;
+    let currentProfileData = null;
     let championMeta = [];
     let championPage = 1;
     let championMetaSource = 'Data Dragon';
     let runeRequestId = 0;
-    const CHAMPIONS_PER_PAGE = 15;
+    const CHAMPIONS_PER_PAGE = 20;
     const CHAMPION_FAVORITE_KEY = 'lolChampionFavorites';
     const TIER_OPTIONS = ['Challenger', 'Grandmaster', 'Master', 'Diamond', 'Emerald', 'Platinum', 'Gold', 'Silver', 'Bronze', 'Iron'];
     const FILTER_OPTIONS = {
@@ -1613,6 +1669,31 @@
       return profile.join(' · ');
     }
 
+    function championInsight(champion, counters = [], easyTargets = []) {
+      const win = Number(champion.winRate || 0);
+      const pick = Number(champion.pickRate || 0);
+      const ban = Number(champion.banRate || 0);
+      const role = Number(String(champion.roleRate).toLowerCase() === 'invalid' ? 0 : champion.roleRate || 0);
+      const roleRate = role <= 1 ? role * 100 : role;
+      const parts = [];
+
+      if (win >= 52) parts.push(`현재 ${roleLabel(champion.role)}에서 승률이 높아 솔로랭크 기대값이 좋은 편입니다.`);
+      else if (win <= 49) parts.push(`승률이 낮은 편이라 숙련도나 조합 의존도를 확인하고 고르는 게 좋습니다.`);
+      else parts.push(`승률은 평균권이라 상성, 조합, 숙련도에 따라 체감이 크게 갈립니다.`);
+
+      if (pick >= 10) parts.push(`픽률이 높아 자주 만나는 대중픽이며, 상대도 대응법을 알고 있을 가능성이 큽니다.`);
+      else if (pick <= 3) parts.push(`픽률이 낮아 상대가 대처에 익숙하지 않을 수 있지만 표본 변동도 큽니다.`);
+      else parts.push(`픽률은 무난해서 메타 안에서 안정적으로 선택되는 쪽입니다.`);
+
+      if (ban >= 18) parts.push(`밴률이 높아 선호도와 견제 수치가 모두 높게 잡히는 챔피언입니다.`);
+      else if (roleRate >= 80) parts.push(`${roleLabel(champion.role)} 전용성이 강해서 라인 선택이 분명한 편입니다.`);
+
+      if (counters[0]) parts.push(`${counters[0]} 상대로는 상대 승률 지표가 불리하게 잡혀 선픽 부담이 있습니다.`);
+      if (easyTargets[0]) parts.push(`${easyTargets[0]} 같은 낮은 티어/약세 픽을 만났을 때는 주도권을 잡기 쉽습니다.`);
+
+      return parts.slice(0, 4);
+    }
+
     function renderCounters(champion) {
       const body = document.getElementById('counterBody');
       if (!champion) {
@@ -1634,6 +1715,7 @@
         .sort((a, b) => (b.rank || 0) - (a.rank || 0))
         .slice(0, 3)
         .map(c => c.name);
+      const insights = championInsight(champion, counters, easyTargets);
       const counterRate = name => {
         const stat = (champion.counterStats || []).find(item => item.name === name);
         return stat && Number.isFinite(Number(stat.winRate)) ? `상대 승률 ${percent(stat.winRate)}` : '상대 승률 -';
@@ -1656,6 +1738,12 @@
           <div class="meta-mini"><span>랭킹</span><b>${champion.rank || '-'}</b></div>
           <div class="meta-mini"><span>티어</span><b>${escapeHtml(tierLabel(champion.tier))}</b></div>
           <div class="meta-mini"><span>라인 점유</span><b>${roleRateText(champion.roleRate)}</b></div>
+        </div>
+        <div class="tip-card">
+          <b>${escapeHtml(champion.name)} 분석 포인트</b>
+          <div class="tip-list">
+            ${insights.map(text => `<div class="tip-line"><span class="tip-dot"></span><span>${escapeHtml(text)}</span></div>`).join('')}
+          </div>
         </div>
         <div id="runeCard" class="rune-card"><div class="lab-muted">룬 데이터를 불러오는 중입니다.</div></div>
         <div class="counter-group-title">상대하기 어려운 챔피언</div>
@@ -1853,6 +1941,252 @@
       layer.innerHTML = particles + stars + shootingStars;
     }
 
+    function profileDisplayName(data) {
+      return data ? `${data.name}#${data.tag}` : '-';
+    }
+
+    function rankSummary(data) {
+      const solo = data?.rank?.find(r => r.queueType === 'RANKED_SOLO_5x5') || data?.rank?.[0];
+      return solo ? `${rankLabel(solo)} ${solo.leaguePoints || 0}LP` : 'UNRANKED';
+    }
+
+    function tierColor(tier) {
+      return {
+        CHALLENGER: '#d8f7ff',
+        GRANDMASTER: '#e23b2c',
+        MASTER: '#9b4dff',
+        DIAMOND: '#5765d1',
+        EMERALD: '#00a86b',
+        PLATINUM: '#4e9996',
+        GOLD: '#b7791f',
+        SILVER: '#aeb6bf',
+        BRONZE: '#b0784f',
+        IRON: '#6f6f75',
+        UNRANKED: '#6f6f75'
+      }[String(tier || 'UNRANKED').toUpperCase()] || '#6f6f75';
+    }
+
+    function rankPercentile(rank) {
+      if (!rank || rank.tier === 'UNRANKED') return { ladder: '랭킹 없음', top: '상위 -' };
+      const base = {
+        CHALLENGER: 0.02,
+        GRANDMASTER: 0.08,
+        MASTER: 0.35,
+        DIAMOND: 2.2,
+        EMERALD: 8.5,
+        PLATINUM: 18,
+        GOLD: 35,
+        SILVER: 58,
+        BRONZE: 78,
+        IRON: 95
+      }[String(rank.tier).toUpperCase()] || 100;
+      const divisionOffset = { I: 0, II: 0.18, III: 0.38, IV: 0.62 }[rank.rank] || 0;
+      const lpOffset = rank.leaguePoints ? Math.max(0, (100 - rank.leaguePoints) / 1000) : 0.08;
+      const top = Math.min(99, Math.max(0.01, base + divisionOffset + lpOffset));
+      const formatted = top < 1 ? top.toFixed(2) : top < 10 ? top.toFixed(1) : Math.round(top);
+      return {
+        ladder: rank.leaguePosition ? `${rank.leagueName || '리그'} ${rank.leaguePosition}/${rank.leagueSize || '-'}` : `${rank.tier} ${rank.rank || ''} 기준`,
+        top: `예상 상위 ${formatted}%`
+      };
+    }
+
+    function buildShareText(data) {
+      const summary = data?.recentSummary || {};
+      const most = summary.mostPlayed?.name || data?.mostChampions?.[0]?.name || '-';
+      const streak = summary.streak?.label || '기록 없음';
+      return [
+        `muho-lol 전적 요약 - ${profileDisplayName(data)}`,
+        `랭크: ${rankSummary(data)}`,
+        `최근 승률: ${summary.count ? `${summary.winRate}% (${summary.wins}승 ${summary.losses}패)` : '기록 없음'}`,
+        `평균 KDA: ${summary.avgKda || '-'}`,
+        `흐름: ${streak}`,
+        `주요 챔피언: ${most}`
+      ].join('\n');
+    }
+
+    async function copyShareSummary() {
+      const text = buildShareText(currentProfileData);
+      try {
+        await navigator.clipboard.writeText(text);
+        alert('공유 요약을 복사했습니다.');
+      } catch (e) {
+        window.prompt('공유 요약을 복사하세요.', text);
+      }
+    }
+
+    function recommendedChampions(summary, data) {
+      const bestPosition = [...(summary?.positionStats || [])]
+        .filter(p => p.games >= 2)
+        .sort((a, b) => b.winRate - a.winRate || b.games - a.games)[0];
+      const recentChampNames = new Set((summary?.championStats || []).slice(0, 5).map(c => c.name));
+      const mostNames = new Set((data?.mostChampions || []).map(c => c.name));
+      const role = bestPosition?.key || summary?.mostPlayed?.position || championMeta.find(c => mostNames.has(c.name))?.role || 'BOTTOM';
+      const recentWin = Number(bestPosition?.winRate || summary?.winRate || 50);
+      const needsSafePick = recentWin < 50;
+      const pool = championMeta
+        .filter(c => c.role === role)
+        .sort((a, b) => {
+          const ownedA = recentChampNames.has(a.name) || mostNames.has(a.name) ? 0.9 : 0;
+          const ownedB = recentChampNames.has(b.name) || mostNames.has(b.name) ? 0.9 : 0;
+          const scoreA = (a.winRate || 0) + (a.pickRate || 0) * (needsSafePick ? 0.22 : 0.12) - (a.banRate || 0) * 0.05 + ownedA;
+          const scoreB = (b.winRate || 0) + (b.pickRate || 0) * (needsSafePick ? 0.22 : 0.12) - (b.banRate || 0) * 0.05 + ownedB;
+          return scoreB - scoreA;
+        })
+        .slice(0, 3)
+        .map(c => ({
+          ...c,
+          reason: recentChampNames.has(c.name) || mostNames.has(c.name)
+            ? '최근/숙련 픽과 연결'
+            : `${roleLabel(role)} ${needsSafePick ? '안정픽' : '메타 확장픽'}`
+        }));
+      return pool.length ? pool : championMeta.slice(0, 3).map(c => ({ ...c, reason: '메타 기준 추천' }));
+    }
+
+    function renderSmartTools(data) {
+      const wrap = document.getElementById('smartTools');
+      if (!wrap || !data) return;
+      const summary = data.recentSummary || {};
+      const most = summary.mostPlayed?.name || data.mostChampions?.[0]?.name || '-';
+      const recommended = recommendedChampions(summary, data);
+      const ban = [...championMeta].sort((a, b) => (b.banRate || 0) - (a.banRate || 0))[0];
+      const shareText = buildShareText(data).split('\n').slice(1, 5);
+      const solo = data?.rank?.find(r => r.queueType === 'RANKED_SOLO_5x5') || data?.rank?.[0];
+      wrap.innerHTML = `
+        <div class="tool-panel">
+          <div class="share-card rank-aura tier-${escapeHtml(solo?.tier || 'UNRANKED')}">
+            <b>${escapeHtml(profileDisplayName(data))}</b>
+            ${shareText.map(line => `<span>${escapeHtml(line)}</span>`).join('')}
+          </div>
+        </div>
+        <div class="tool-panel">
+          <div class="compare-shell">
+            <div class="compare-form">
+              <div class="compare-wrap">
+                <input id="compareName" type="text" placeholder="소환사명" oninput="updateCompareClearButtons()">
+                <span id="clearCompareName" class="clear-input" onclick="clearCompareInput('compareName')">x</span>
+              </div>
+              <div class="compare-wrap">
+                <input id="compareTag" type="text" placeholder="태그" oninput="updateCompareClearButtons()">
+                <span id="clearCompareTag" class="clear-input" onclick="clearCompareInput('compareTag')">x</span>
+              </div>
+              <button class="mini-btn" type="button" onclick="compareSummoner()">비교</button>
+            </div>
+            <div id="compareResult" class="compare-result">
+              <div class="compare-card compact"><b>${escapeHtml(profileDisplayName(data))}</b><span>비교할 소환사를 입력하면 최근 흐름을 나란히 보여줍니다.</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="section-title">맞춤 추천</div>
+        <div class="tool-panel wide">
+          <div class="recommend-grid">
+            ${recommended.map(c => `
+              <div class="recommend-card">
+                <img src="${championIcon(c.id)}" onerror="hideBrokenImage(this)" alt="">
+                <b>${escapeHtml(c.name)}</b>
+                <span>${escapeHtml(c.reason)} · 승률 ${percent(c.winRate)}</span>
+              </div>
+            `).join('')}
+            <div class="recommend-card ban-card">
+              <img src="${ban ? championIcon(ban.id) : ''}" onerror="hideBrokenImage(this)" alt="">
+              <b>밴추천</b>
+              <span>${ban ? `${escapeHtml(ban.name)} 밴률 ${percent(ban.banRate)}` : '챔피언 통계 로딩 중'}</span>
+            </div>
+          </div>
+        </div>
+      `;
+      ['compareName', 'compareTag'].forEach(id => {
+        document.getElementById(id)?.addEventListener('keydown', event => {
+          if (event.key === 'Enter') compareSummoner();
+        });
+      });
+      updateCompareClearButtons();
+    }
+
+    function compareCard(data) {
+      const summary = data?.recentSummary || {};
+      const most = summary.mostPlayed?.name || data?.mostChampions?.[0]?.name || '-';
+      return `
+        <div class="compare-mini">
+          <b>${escapeHtml(profileDisplayName(data))}</b>
+          <span>${escapeHtml(rankSummary(data))}</span>
+          <span>승률 ${summary.winRate || 0}% · KDA ${summary.avgKda || '-'}</span>
+          <span>모스트 ${escapeHtml(most)}</span>
+        </div>
+      `;
+    }
+
+    function mostChampionDisplayItems(data) {
+      const seen = new Set();
+      return (data?.mostChampions || [])
+        .filter(c => {
+          if (!c?.name || seen.has(c.name)) return false;
+          seen.add(c.name);
+          return true;
+        })
+        .slice(0, 5)
+        .map(c => ({ ...c, sub: `${(c.points / 10000).toFixed(1)}만`, levelText: `LV ${c.level || '-'}` }));
+    }
+
+    function updateCompareClearButtons() {
+      const name = document.getElementById('compareName');
+      const tag = document.getElementById('compareTag');
+      const clearName = document.getElementById('clearCompareName');
+      const clearTag = document.getElementById('clearCompareTag');
+      if (clearName) clearName.style.display = name?.value ? 'block' : 'none';
+      if (clearTag) clearTag.style.display = tag?.value ? 'block' : 'none';
+    }
+
+    function clearCompareInput(id) {
+      const input = document.getElementById(id);
+      if (input) input.value = '';
+      updateCompareClearButtons();
+    }
+
+    async function compareSummoner() {
+      const name = document.getElementById('compareName')?.value.trim();
+      const tag = document.getElementById('compareTag')?.value.trim();
+      const target = document.getElementById('compareResult');
+      if (!name || !tag || !target) return;
+      target.innerHTML = '<div class="compare-card compact"><b>비교 중...</b><span>상대 전적을 불러오고 있습니다.</span></div>';
+      try {
+        const res = await fetch(`${API_BASE}/api/summoner/${encodeURIComponent(name)}/${encodeURIComponent(tag)}`);
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || '조회 실패');
+        const leftRank = currentProfileData?.rank?.find(r => r.queueType === 'RANKED_SOLO_5x5') || currentProfileData?.rank?.[0];
+        const rightRank = data?.rank?.find(r => r.queueType === 'RANKED_SOLO_5x5') || data?.rank?.[0];
+        target.innerHTML = `<div class="compare-card duo" style="--left-aura:${tierColor(leftRank?.tier)}; --right-aura:${tierColor(rightRank?.tier)}">${compareCard(currentProfileData)}${compareCard(data)}</div>`;
+      } catch (e) {
+        target.innerHTML = `<div class="compare-card compact"><b>비교 실패</b><span>${escapeHtml(e.message)}</span></div>`;
+      }
+    }
+
+    function displayThreat(player, hint) {
+      let score = Number(player?.threat?.score || 0);
+      const reasons = [...(player?.threat?.reasons || [])];
+      const rank = player?.rank || {};
+      const mastery = player?.currentChampionMastery;
+      const rankGames = (rank.wins || 0) + (rank.losses || 0);
+
+      if (rank.winRate >= 60 && rankGames >= 25) {
+        score += 8;
+        reasons.push('최근 랭크 승률 높음');
+      }
+      if ((mastery?.points || 0) >= 300000) {
+        score += 6;
+        reasons.push(`${player.champion?.name || '현재픽'} 숙련도 높음`);
+      }
+      if (hint) {
+        score += hint.includes('주의') ? 8 : -5;
+        reasons.push(hint);
+      }
+
+      if (score >= 105) return { label: '집중 견제', level: 'extreme', reasons };
+      if (score >= 86) return { label: '위험', level: 'danger', reasons };
+      if (score >= 68) return { label: '주의', level: 'warn', reasons };
+      if (score >= 48) return { label: '변수', level: 'steady', reasons };
+      return { label: '안정', level: 'safe', reasons };
+    }
+
     function renderPowerCompare(currentGame) {
       const blue = currentGame.teams.find(t => t.teamId === 100);
       const red = currentGame.teams.find(t => t.teamId === 200);
@@ -1931,9 +2265,10 @@
           const isSearched = playerKey === normalizedSearch;
           const mastery = p.currentChampionMastery || p.mostChampion;
           const hint = laneCounterHint(p, currentGame);
-          const reasonList = [...(p.threat?.reasons || []), ...(hint ? [hint] : [])];
+          const threat = displayThreat(p, hint);
+          const reasonList = threat.reasons || [];
           const reasons = reasonList.length ? reasonList.join(', ') : '특이사항 없음';
-          const rowState = p.threat?.level === 'danger' || hint.includes('주의') ? 'threat-highlight' : p.threat?.level === 'warn' ? 'threat-watch' : '';
+          const rowState = ['extreme', 'danger'].includes(threat.level) ? 'threat-highlight' : ['warn', 'steady'].includes(threat.level) ? 'threat-watch' : '';
           return `
             <div class="player-row ${isSearched ? 'searched' : ''} ${rowState}">
               <img class="champ-icon" src="${championIcon(p.champion?.id)}" onerror="hideBrokenImage(this)" alt="">
@@ -1950,7 +2285,7 @@
                 <div class="most-sub">${mastery ? `LV ${mastery.level} · ${(mastery.points / 10000).toFixed(1)}만` : '-'}</div>
               </div>
               <div class="threat-cell">
-                <span class="threat-badge threat-${escapeHtml(p.threat?.level || 'safe')}">${escapeHtml(p.threat?.label || '안정')}</span>
+                <span class="threat-badge threat-${escapeHtml(threat.level)}">${escapeHtml(threat.label)}</span>
                 <div class="threat-reason" title="${escapeHtml(reasons)}">${escapeHtml(reasons)}</div>
               </div>
             </div>
@@ -2088,6 +2423,7 @@
         document.getElementById('pName').innerText = `${d.name}#${d.tag}`;
         document.getElementById('pLevel').innerText = `Level ${d.level}`;
         currentProfile = { name: d.name, tag: d.tag };
+        currentProfileData = d;
         updateFavoriteButton();
 
         const streak = d.recentSummary?.streak;
@@ -2097,11 +2433,13 @@
         streakBadge.innerText = streak?.label || '';
 
         renderCurrentGame(d.currentGame, d.name, d.tag, d.currentGameStatus);
+        renderSmartTools(d);
         renderRecentSummary(d.recentSummary);
         renderDeepAnalysis(d.recentSummary);
 
-        document.getElementById('matches').innerHTML = d.lastGames.filter(Boolean).slice(0, 5).map(g => `
+        document.getElementById('matches').innerHTML = d.lastGames.filter(Boolean).slice(0, 10).map(g => `
           <div class="match-box ${g.win ? 'win-box' : 'loss-box'}">
+            ${g.badge ? `<span class="match-badge ${g.badge === 'ACE' ? 'ace' : ''}">${escapeHtml(g.badge)}</span>` : ''}
             <img src="${championIcon(g.champ?.id)}" onerror="hideBrokenImage(this)" alt=""><br>
             <b>${g.win ? '승리' : '패배'}</b><br>${g.k}/${g.d}/${g.a}
           </div>
@@ -2126,12 +2464,14 @@
               </div>
             </div>
           `;
+          const rankInfo = rankPercentile(r);
           return `
           <div class="rank-card">
             <img class="tier-img" src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-shared-components/global/default/${r.tier.toLowerCase()}.png" alt="">
             <div style="flex:1">
               <b style="font-size:1.05rem; color:#fff">${title} · ${r.tier} ${r.rank}</b>
               <p style="color:#ccc">${r.leaguePoints} LP · ${r.wins}승 ${r.losses}패</p>
+              <p style="color:#a09480; font-size:0.76rem; margin-top:4px">${escapeHtml(rankInfo.ladder)} · ${escapeHtml(rankInfo.top)}</p>
               <div class="lp-bar-bg"><div class="lp-bar-fill" style="width:${Math.min(r.leaguePoints, 100)}%"></div></div>
             </div>
           </div>
@@ -2143,11 +2483,11 @@
           <div class="rank-grid">${rankCards}</div>
         `;
 
-        document.getElementById('mosts').innerHTML = d.mostChampions.map(c => `
+        document.getElementById('mosts').innerHTML = mostChampionDisplayItems(d).map(c => `
           <div class="most-item">
-            <span class="mastery-tag">LV ${c.level}</span>
+            <span class="mastery-tag">${escapeHtml(c.levelText)}</span>
             <img class="most-img" src="${championIcon(c.id)}" onerror="hideBrokenImage(this)" alt=""><br>
-            <b>${escapeHtml(c.name)}</b><br><small style="color:#a09480">${(c.points / 10000).toFixed(1)}만</small>
+            <b>${escapeHtml(c.name)}</b><br><small style="color:#a09480">${escapeHtml(c.sub)}</small>
           </div>
         `).join('');
 
