@@ -218,6 +218,13 @@ function parseOpggChampionStats(html) {
       pickRate: finiteNumber(item.positionPickRate),
       banRate: finiteNumber(item.positionBanRate),
       roleRate: finiteNumber(item.positionRoleRate, null),
+      counterStats: (item.positionCounters || []).map(counter => {
+        const counterChampion = champData[counter.champion_id];
+        return {
+          name: counterChampion?.name || counter.name,
+          winRate: finiteNumber(counter.win_rate ?? counter.winRate ?? counter.positionWinRate ?? counter.win, null)
+        };
+      }).filter(Boolean),
       counters: (item.positionCounters || []).map(counter => {
         const counterChampion = champData[counter.champion_id];
         return counterChampion?.name || counter.name;
@@ -290,19 +297,110 @@ function patchVersionLabel() {
   return parts.length >= 2 ? `${parts[0]}.${parts[1]}` : DDRAGON_VERSION;
 }
 
-app.get('/api/home-meta', (req, res) => {
+function compactPercent(value) {
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? `${numeric.toFixed(1)}%` : '-';
+}
+
+function homeRoleLabel(role) {
+  return POSITION_LABEL[role] || '전체';
+}
+
+function homeTierLabel(tier) {
+  return tier === 'OP' ? 'OP' : `${tier}티어`;
+}
+
+function fallbackHomePayload() {
   const patch = patchVersionLabel();
-  res.json({
+  return {
     ddragonVersion: DDRAGON_VERSION,
     patch,
     patchUrl: `https://www.leagueoflegends.com/ko-kr/news/tags/patch-notes/`,
+    metaSource: '최신 데이터 대기중',
+    matchupSource: '챔피언 분석 데이터 기반',
     cards: [
       { type: 'neutral', title: `최신 데이터 ${patch}`, text: `Data Dragon ${DDRAGON_VERSION} 기준으로 챔피언/아이콘 정보를 불러왔습니다.` },
       { type: 'up', title: '챔피언 데이터 자동 갱신', text: '새 챔피언이나 이름 변경이 있으면 서버 시작 시 최신 목록을 다시 가져옵니다.' },
       { type: 'neutral', title: '패치노트 바로가기', text: '세부 버프/너프는 Riot 공식 패치노트에서 최신 내용을 확인할 수 있습니다.' },
       { type: 'down', title: '통계 연동 준비', text: '승률 급상승/밴율 변화는 별도 통계 데이터 소스를 붙이면 자동화됩니다.' }
-    ]
-  });
+    ],
+    metaCards: [],
+    matchupCards: [],
+    quickCards: [
+      { title: '연승/연패 흐름', text: '프로필 옆 배지로 최근 분위기를 바로 확인합니다.' },
+      { title: '팀 전력 비교', text: 'LIVE 게임이면 양 팀 평균 승률과 현재 픽 숙련도를 비교합니다.' }
+    ],
+    spotlightCards: []
+  };
+}
+
+app.get('/api/home-meta', async (req, res) => {
+  const payload = fallbackHomePayload();
+  try {
+    const path = '/lol/champions?position=all&region=kr&tier=emerald&type=ranked';
+    const html = await cachedPublicTextGet('op.gg', path, 15 * 60 * 1000);
+    const rows = parseOpggChampionStats(html);
+    const rankedRows = rows.filter(row => row?.name);
+    const top = [...rankedRows].sort((a, b) => (a.rank || 999) - (b.rank || 999));
+    const pick = [...rankedRows].sort((a, b) => (b.pickRate || 0) - (a.pickRate || 0));
+    const ban = [...rankedRows].sort((a, b) => (b.banRate || 0) - (a.banRate || 0));
+    const win = [...rankedRows].sort((a, b) => (b.winRate || 0) - (a.winRate || 0));
+    const matchupRows = top.filter(row => row.counters?.length).slice(0, 2);
+
+    if (rankedRows.length) {
+      payload.metaSource = 'KR Emerald 공개 통계';
+      payload.matchupSource = 'OP.GG 카운터 기반';
+      payload.cards = [
+        { type: 'neutral', title: `최신 데이터 ${payload.patch}`, text: `챔피언 아이콘은 Data Dragon ${DDRAGON_VERSION}, 메타 요약은 KR Emerald 통계를 사용합니다.` },
+        { type: 'up', title: `OP ${top[0]?.name || '-'}`, text: `${homeRoleLabel(top[0]?.role)} ${homeTierLabel(top[0]?.tier)} · 승률 ${compactPercent(top[0]?.winRate)} · 픽률 ${compactPercent(top[0]?.pickRate)}` },
+        { type: 'up', title: `픽률 최고 ${pick[0]?.name || '-'}`, text: `${homeRoleLabel(pick[0]?.role)}에서 픽률 ${compactPercent(pick[0]?.pickRate)}로 가장 자주 등장합니다.` },
+        { type: 'down', title: `밴률 주의 ${ban[0]?.name || '-'}`, text: `밴률 ${compactPercent(ban[0]?.banRate)} · 상대 조합 확인 가치가 높은 챔피언입니다.` }
+      ];
+      payload.metaCards = [
+        { tag: 'OP 티어', title: `${top[0]?.name || '-'}`, text: `${homeRoleLabel(top[0]?.role)} · ${homeTierLabel(top[0]?.tier)} · 승률 ${compactPercent(top[0]?.winRate)}` },
+        { tag: '승률 상위', title: `${win[0]?.name || '-'}`, text: `${homeRoleLabel(win[0]?.role)} · 승률 ${compactPercent(win[0]?.winRate)} · 픽률 ${compactPercent(win[0]?.pickRate)}` },
+        { tag: '밴픽 주의', title: `${ban[0]?.name || '-'}`, text: `밴률 ${compactPercent(ban[0]?.banRate)} · 게임 전 카운터 확인 추천` }
+      ];
+      payload.matchupCards = matchupRows.map(row => ({
+        title: `${homeRoleLabel(row.role)}: ${row.name} 상대 주의`,
+        text: `자주 불리한 상대로 ${row.counters.slice(0, 3).join(', ')} 목록이 잡힙니다. 챔피언 분석에서 룬과 쉬운 상대를 같이 확인하세요.`
+      }));
+      payload.quickCards = [
+        { title: '인게임 현재 픽 숙련도', text: 'LIVE 게임이면 현재 플레이 중인 챔피언 숙련도로 위험도를 다시 계산합니다.' },
+        { title: '챔피언 분석 바로 활용', text: 'KR/Emerald 기준 티어, 룬, 어려운 상대와 쉬운 상대를 한 화면에서 확인합니다.' }
+      ];
+      payload.spotlightCards = [
+        {
+          id: top[0]?.id,
+          name: top[0]?.name || '-',
+          text: `${homeRoleLabel(top[0]?.role)} · ${homeTierLabel(top[0]?.tier)} · OP 지표`,
+          stat: compactPercent(top[0]?.winRate)
+        },
+        {
+          id: pick[0]?.id,
+          name: pick[0]?.name || '-',
+          text: `${homeRoleLabel(pick[0]?.role)} · 픽률 최고`,
+          stat: compactPercent(pick[0]?.pickRate)
+        },
+        {
+          id: ban[0]?.id,
+          name: ban[0]?.name || '-',
+          text: `${homeRoleLabel(ban[0]?.role)} · 밴률 주의`,
+          stat: compactPercent(ban[0]?.banRate)
+        },
+        {
+          id: win[0]?.id,
+          name: win[0]?.name || '-',
+          text: `${homeRoleLabel(win[0]?.role)} · 승률 상위`,
+          stat: compactPercent(win[0]?.winRate)
+        }
+      ];
+    }
+
+    res.json(payload);
+  } catch (error) {
+    res.json(payload);
+  }
 });
 
 app.get('/api/champions', (req, res) => {
@@ -547,7 +645,10 @@ function pickRank(entries) {
 }
 
 function rankPower(rank) {
-  return TIER_SCORE[rank?.tier] || 0;
+  const base = TIER_SCORE[rank?.tier] || 0;
+  if (!base || base >= TIER_SCORE.MASTER) return base;
+  const divisionBonus = { IV: 0, III: 0.25, II: 0.5, I: 0.75 }[rank?.rank] || 0;
+  return base + divisionBonus;
 }
 
 function averageTierLabel(score) {
@@ -564,16 +665,19 @@ function averageTierLabel(score) {
     ['GRANDMASTER', 9],
     ['CHALLENGER', 10]
   ];
-  const nearest = tiers.reduce((best, item) => Math.abs(item[1] - score) < Math.abs(best[1] - score) ? item : best, tiers[0]);
-  const fraction = Math.max(0, Math.min(0.99, score - Math.floor(score)));
-  const division = Math.max(1, Math.min(4, 4 - Math.floor(fraction * 4)));
-  return `${nearest[0]} ${division}`;
+  const tierBase = Math.max(1, Math.min(10, Math.floor(score)));
+  const tier = tiers.find(item => item[1] === tierBase) || tiers[0];
+  if (tierBase >= TIER_SCORE.MASTER) return `${tier[0]} 1`;
+  const fraction = Math.max(0, Math.min(0.99, score - tierBase));
+  const division = fraction >= 0.75 ? 1 : fraction >= 0.5 ? 2 : fraction >= 0.25 ? 3 : 4;
+  return `${tier[0]} ${division}`;
 }
 
-function buildThreat(rank, championId, mostChampion) {
+function buildThreat(rank, championId, currentChampionMastery) {
   const reasons = [];
   let score = rankPower(rank) * 10;
   const totalRankGames = (rank?.wins || 0) + (rank?.losses || 0);
+  const masteryPoints = currentChampionMastery?.points || 0;
 
   if (rank?.winRate >= 58 && totalRankGames >= 20) {
     score += 18;
@@ -583,14 +687,14 @@ function buildThreat(rank, championId, mostChampion) {
     reasons.push('승률 낮음');
   }
 
-  if (mostChampion && mostChampion.championId === championId) {
-    score += 18;
-    reasons.push('모스트 픽');
-  }
-
-  if ((mostChampion?.points || 0) >= 500000) {
-    score += 10;
-    reasons.push('숙련도 높음');
+  if (currentChampionMastery && currentChampionMastery.championId === championId) {
+    if (masteryPoints >= 500000) {
+      score += 16;
+      reasons.push('현재 픽 숙련도 높음');
+    } else if (masteryPoints >= 100000) {
+      score += 8;
+      reasons.push('현재 픽 숙련도 있음');
+    }
   }
 
   if (rank?.tier === 'UNRANKED') {
@@ -610,8 +714,8 @@ function summarizeTeam(teamId, name, players) {
   const avgWinRate = players.length
     ? Math.round(players.reduce((sum, p) => sum + (p.rank?.winRate || 0), 0) / players.length)
     : 0;
-  const mainPickCount = players.filter(p => p.threat?.reasons?.includes('모스트 픽')).length;
-  const highMasteryCount = players.filter(p => (p.mostChampion?.points || 0) >= 500000).length;
+  const mainPickCount = players.filter(p => (p.currentChampionMastery?.points || 0) >= 100000).length;
+  const highMasteryCount = players.filter(p => (p.currentChampionMastery?.points || 0) >= 500000).length;
   const threatScore = players.length
     ? Math.round(players.reduce((sum, p) => sum + (p.threat?.score || 0), 0) / players.length)
     : 0;
@@ -752,23 +856,23 @@ async function buildCurrentGameAnalysis(game, apiKey) {
         position: normalizePosition(p.teamPosition || p.individualPosition || p.position),
         rank,
         mostChampion: null,
+        currentChampionMastery: null,
         threat: buildThreat(rank, p.championId, null)
       };
     }
 
     const spectatorRiotId = getSpectatorRiotId(p);
-    const [account, rankEntries, mastery] = await Promise.all([
+    const [account, rankEntries, currentMastery] = await Promise.all([
       cachedHttpsGet('asia.api.riotgames.com', `/riot/account/v1/accounts/by-puuid/${p.puuid}`, apiKey).catch(() => null),
       cachedHttpsGet('kr.api.riotgames.com', `/lol/league/v4/entries/by-puuid/${p.puuid}`, apiKey).catch(() => []),
-      cachedHttpsGet('kr.api.riotgames.com', `/lol/champion-mastery/v4/champion-masteries/by-puuid/${p.puuid}/top?count=1`, apiKey).catch(() => [])
+      cachedHttpsGet('kr.api.riotgames.com', `/lol/champion-mastery/v4/champion-masteries/by-puuid/${p.puuid}/by-champion/${p.championId}`, apiKey).catch(() => null)
     ]);
 
-    const topMastery = mastery[0];
-    const mostChampion = topMastery ? {
-      ...getChampion(topMastery.championId),
-      championId: topMastery.championId,
-      level: topMastery.championLevel,
-      points: topMastery.championPoints
+    const currentChampionMastery = currentMastery ? {
+      ...getChampion(p.championId),
+      championId: p.championId,
+      level: currentMastery.championLevel || 0,
+      points: currentMastery.championPoints || 0
     } : null;
     const rank = pickRank(rankEntries);
 
@@ -781,8 +885,9 @@ async function buildCurrentGameAnalysis(game, apiKey) {
       champion: getChampion(p.championId),
       position: normalizePosition(p.teamPosition || p.individualPosition || p.position),
       rank,
-      mostChampion,
-      threat: buildThreat(rank, p.championId, mostChampion)
+      mostChampion: currentChampionMastery,
+      currentChampionMastery,
+      threat: buildThreat(rank, p.championId, currentChampionMastery)
     };
   }));
 
@@ -792,6 +897,11 @@ async function buildCurrentGameAnalysis(game, apiKey) {
 
   const blueTeam = summarizeTeam(100, '블루팀', bluePlayers.slice(0, 5));
   const redTeam = summarizeTeam(200, '레드팀', redPlayers.slice(0, 5));
+  const allPlayers = [...blueTeam.players, ...redTeam.players];
+  const rankedPlayers = allPlayers.filter(p => p.rank?.tier !== 'UNRANKED');
+  const avgTierScore = rankedPlayers.length
+    ? rankedPlayers.reduce((sum, p) => sum + rankPower(p.rank), 0) / rankedPlayers.length
+    : 0;
   const diff = blueTeam.summary.powerScore - redTeam.summary.powerScore;
 
   return {
@@ -808,6 +918,12 @@ async function buildCurrentGameAnalysis(game, apiKey) {
       teamId: Math.abs(diff) < 8 ? null : diff > 0 ? 100 : 200,
       label: Math.abs(diff) < 8 ? '비슷함' : diff > 0 ? '블루팀 우세' : '레드팀 우세',
       diff: Math.abs(diff)
+    },
+    summary: {
+      avgTierScore: Number(avgTierScore.toFixed(1)),
+      avgTierLabel: averageTierLabel(avgTierScore),
+      rankedCount: rankedPlayers.length,
+      playerCount: allPlayers.length
     },
     teams: [blueTeam, redTeam]
   };

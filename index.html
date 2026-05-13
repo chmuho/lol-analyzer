@@ -21,7 +21,7 @@
       align-items: center;
       justify-content: flex-start;
       overflow-x: hidden;
-      padding: 70px 20px 120px;
+      padding: 58px 20px 120px;
       animation: cosmicBackdrop 18s ease-in-out infinite alternate;
     }
     body::before {
@@ -263,6 +263,10 @@
       border-radius: 8px;
       padding: 14px;
     }
+    .search-area .input-wrap,
+    .search-area input { width: 220px; height: 50px; }
+    .search-area input { padding: 0 38px 0 14px; line-height: 50px; }
+    #searchBtn { width: 112px; height: 40px; align-self: center; padding: 0 8px; border-radius: 4px; border: 1px solid transparent; line-height: 38px; font-size: 0.88rem; }
     .search-shell { width: min(100%, 980px); display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 6px; }
     .side-lists { width: 100%; display: flex; flex-direction: column; gap: 8px; }
     .side-panel { background: rgba(0,0,0,0.22); border: 1px solid rgba(200,170,110,0.2); border-radius: 8px; overflow: hidden; }
@@ -325,41 +329,72 @@
     .loading-fill { width: 35%; height: 100%; background: #c8aa6e; animation: loadingMove 1s infinite alternate; }
     @keyframes loadingMove { from { transform: translateX(-40%); } to { transform: translateX(210%); } }
 
-    .home-hub { width: min(100%, 1160px); display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 14px; margin-top: 2px; }
-    .hub-panel { background: rgba(0,0,0,0.24); border: 1px solid rgba(200,170,110,0.24); border-radius: 8px; overflow: hidden; box-shadow: 0 14px 34px rgba(0,0,0,0.22); }
+    .home-hub { width: min(100%, 1160px); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 2px; align-items: stretch; }
+    .hub-panel { width: 100%; height: 100%; background: rgba(0,0,0,0.24); border: 1px solid rgba(200,170,110,0.24); border-radius: 8px; overflow: hidden; box-shadow: 0 14px 34px rgba(0,0,0,0.22); }
+    .home-patch, .home-meta, .home-matchup, .home-quick { grid-area: auto; }
     .hub-head { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 13px 15px; background: rgba(200,170,110,0.08); color: #fff; font-weight: bold; }
     .hub-head small, .hub-link { color: #a09480; font-weight: normal; font-size: 0.78rem; }
-    .hub-link { text-decoration: none; }
-    .hub-link:hover { color: #c8aa6e; }
-    .patch-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 14px; }
-    .patch-card, .meta-card, .matchup-card { background: rgba(1,10,19,0.58); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px; }
-    .change-title { display: flex; align-items: center; gap: 8px; color: #fff; font-weight: bold; margin-bottom: 7px; }
+    .hub-link { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+    .hub-link:hover { color: #c8aa6e; text-decoration-color: #c8aa6e; }
+    .patch-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 12px; }
+    .patch-card, .meta-card, .matchup-card { background: rgba(1,10,19,0.58); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 11px; word-break: keep-all; overflow-wrap: normal; }
+    .champ-summary-card { min-height: 72px; display: grid; grid-template-columns: minmax(0, 1fr) 58px; gap: 10px; align-items: center; }
+    .champ-summary-card img { width: 54px; height: 54px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(200,170,110,0.42); box-shadow: 0 0 16px rgba(200,170,110,0.16); }
+    .change-title { display: flex; align-items: center; gap: 8px; color: #fff; font-weight: bold; margin-bottom: 7px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .arrow-up { color: #58c783; }
     .arrow-down { color: #ff5c5c; }
     .arrow-neutral { color: #c8aa6e; }
-    .patch-card p, .meta-card p, .matchup-card p { color: #a09480; font-size: 0.78rem; line-height: 1.45; }
-    .meta-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; padding: 14px; }
-    .meta-card b, .matchup-card b { display: block; color: #fff; margin-bottom: 6px; }
+    .patch-card p, .meta-card p, .matchup-card p { color: #a09480; font-size: 0.77rem; line-height: 1.42; }
+    .meta-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 12px 12px 8px; }
+    .meta-card b, .matchup-card b { display: block; color: #fff; margin-bottom: 6px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .trend-tag { display: inline-block; padding: 3px 7px; border-radius: 4px; background: rgba(88,199,131,0.15); color: #58c783; font-size: 0.68rem; font-weight: bold; margin-bottom: 8px; }
-    .matchup-list { display: grid; gap: 10px; padding: 14px; }
-    .champion-lab { width: min(100%, 1160px); display: none; margin-top: 18px; }
-    .lab-filter-panel { padding: 16px; background: rgba(1,10,19,0.16); border-top: 1px solid rgba(255,255,255,0.05); }
-    .lab-toolbar { display: grid; grid-template-columns: minmax(0, 1fr) repeat(3, minmax(124px, 0.42fr)); gap: 10px; background: rgba(1,10,19,0.34); border: 1px solid rgba(200,170,110,0.18); border-radius: 6px; padding: 10px; }
-    .lab-toolbar input, .lab-toolbar select { width: 100%; min-width: 0; }
-    .lab-toolbar input, .lab-toolbar select { height: 44px; padding-top: 0; padding-bottom: 0; }
+    .matchup-list { display: grid; gap: 8px; padding: 12px; }
+    .spotlight-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 0 12px 12px; }
+    .spotlight-item { display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; gap: 8px; align-items: center; background: rgba(1,10,19,0.58); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 7px 9px; }
+    .spotlight-item img { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(200,170,110,0.34); }
+    .spotlight-name { min-width: 0; }
+    .spotlight-name b { display: block; color: #fff; font-size: 0.82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .spotlight-name span { display: block; color: #a09480; font-size: 0.72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .spotlight-stat { color: #c8aa6e; font-size: 0.74rem; font-weight: bold; white-space: nowrap; }
+    .champion-lab { width: min(100%, 1100px); display: none; margin-top: 4px; overflow: visible; }
+    .champion-lab > .hub-panel { overflow: visible; position: relative; z-index: 30; }
+    .lab-filter-panel { position: relative; z-index: 40; padding: 16px; background: rgba(1,10,19,0.16); border-top: 1px solid rgba(255,255,255,0.05); }
+    .lab-toolbar { position: relative; z-index: 45; display: grid; grid-template-columns: minmax(0, 0.9fr) repeat(3, minmax(112px, 0.36fr)); gap: 8px; background: rgba(1,10,19,0.34); border: 1px solid rgba(200,170,110,0.18); border-radius: 6px; padding: 8px; }
+    .lab-toolbar input, .lab-toolbar select, .tier-filter-button, .lab-filter-button { width: 100%; min-width: 0; }
+    .lab-toolbar input, .lab-toolbar select, .tier-filter-button, .lab-filter-button { height: 40px; padding-top: 0; padding-bottom: 0; font-size: 0.9rem; }
     .lab-search-wrap { position: relative; min-width: 0; }
     .lab-search-wrap input { padding-right: 34px; }
     .lab-search-wrap .clear-input { top: 50%; transform: translateY(calc(-50% - 1px)); right: 11px; }
+    .tier-filter-wrap, .custom-filter-wrap { position: relative; min-width: 0; }
+    .tier-filter-wrap select { display: none; }
+    .custom-filter-wrap select { display: none; }
+    .tier-filter-icon { position: absolute; left: 10px; top: 50%; width: 24px; height: 24px; object-fit: contain; transform: translateY(-50%); pointer-events: none; filter: drop-shadow(0 0 7px rgba(200,170,110,0.25)); }
+    .tier-filter-button, .lab-filter-button { display: flex; align-items: center; justify-content: space-between; padding: 0 38px 0 13px; background-color: rgba(1,10,19,0.72); background-image: linear-gradient(45deg, transparent 50%, #a09480 50%), linear-gradient(135deg, #a09480 50%, transparent 50%); background-position: calc(100% - 22px) 19px, calc(100% - 16px) 19px; background-size: 6px 6px, 6px 6px; background-repeat: no-repeat; border: 1px solid #3c3c41; color: #f0e6d2; border-radius: 4px; font-size: 0.95rem; text-align: left; }
+    .tier-filter-button { padding-left: 42px; }
+    .tier-filter-button:hover, .lab-filter-button:hover { border-color: rgba(200,170,110,0.48); background-color: rgba(200,170,110,0.1); color: #c8aa6e; }
+    .tier-menu, .custom-filter-menu { display: none; position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 999; background: rgba(1,10,19,0.98); border: 1px solid rgba(200,170,110,0.36); border-radius: 6px; box-shadow: 0 16px 30px rgba(0,0,0,0.42); padding: 5px; }
+    .tier-filter-wrap.open .tier-menu, .custom-filter-wrap.open .custom-filter-menu { display: grid; gap: 4px; }
+    .tier-option { height: 34px; display: flex; align-items: center; gap: 8px; width: 100%; padding: 0 8px; background: transparent; border: 0; border-radius: 4px; color: #f0e6d2; font-size: 0.82rem; text-align: left; }
+    .tier-option:hover, .tier-option.active { background: rgba(200,170,110,0.14); color: #c8aa6e; }
+    .tier-option img { width: 22px; height: 22px; object-fit: contain; }
+    .champ-favorite-row { display: none; gap: 6px; flex-wrap: nowrap; overflow-x: auto; padding: 8px 2px 0; }
+    .champ-favorite-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 8px; border-radius: 4px; border: 1px solid rgba(200,170,110,0.22); background: rgba(1,10,19,0.42); color: #f0e6d2; font-size: 0.74rem; white-space: nowrap; cursor: pointer; }
+    .champ-favorite-chip:hover { border-color: #c8aa6e; color: #c8aa6e; }
+    .champ-favorite-chip > span:first-child { transform: translateY(-1px); }
+    .champ-favorite-x { width: 14px; height: 14px; display: inline-flex; align-items: center; justify-content: center; color: #a09480; line-height: 1; transform: translateY(1px); }
+    .champ-favorite-x:hover { color: #ff5c5c; }
     select { padding: 0 38px 0 13px; background-color: rgba(1,10,19,0.72); background-image: linear-gradient(45deg, transparent 50%, #a09480 50%), linear-gradient(135deg, #a09480 50%, transparent 50%); background-position: calc(100% - 22px) 19px, calc(100% - 16px) 19px; background-size: 6px 6px, 6px 6px; background-repeat: no-repeat; border: 1px solid #3c3c41; color: #f0e6d2; border-radius: 4px; font-size: 0.95rem; outline: none; appearance: none; }
-    .lab-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 14px; margin-top: 12px; }
+    .lab-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1.1fr 0.85fr; gap: 12px; margin-top: 12px; align-items: stretch; }
     .champion-table, .counter-panel { background: rgba(0,0,0,0.25); border: 1px solid rgba(200,170,110,0.2); border-radius: 8px; overflow: hidden; }
-    .champ-row, .champ-head-grid { display: grid; grid-template-columns: 38px 40px minmax(0, 1fr) 70px 70px 70px; gap: 10px; align-items: center; }
-    .champ-row { padding: 11px 14px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 0.82rem; cursor: pointer; }
+    .champion-table { display: flex; flex-direction: column; }
+    #championRows { display: flex; flex-direction: column; }
+    .champ-row, .champ-head-grid { display: grid; grid-template-columns: 34px 36px minmax(0, 1fr) 58px 58px 58px; gap: 8px; align-items: center; }
+    .champ-row { padding: 11px 12px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 0.8rem; cursor: pointer; }
     .champ-head-grid { width: 100%; padding: 0; }
     .champ-head-title { min-width: 0; justify-self: center; grid-column: 1 / 4; }
     .champ-head-label { position: relative; color: #a09480; font-size: 0.72rem; font-weight: normal; text-align: center; }
     .champ-head-label + .champ-head-label::before { content: "/"; position: absolute; left: -8px; color: rgba(160,148,128,0.65); }
-    .champion-table > .hub-head { padding: 13px 14px; }
+    .champion-table > .hub-head { padding: 12px; }
     .champ-stat { text-align: center; font-variant-numeric: tabular-nums; }
     .champ-row:hover, .champ-row.selected { background: rgba(200,170,110,0.11); }
     .champ-rank { width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; justify-self: center; color: #f0e6d2; font-weight: bold; text-align: center; font-size: 0.78rem; line-height: 1; transform: translateY(-1px); background: linear-gradient(180deg, rgba(200,170,110,0.18), rgba(1,10,19,0.76)); border: 1px solid rgba(200,170,110,0.42); border-radius: 6px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.08); }
@@ -370,8 +405,10 @@
     .champ-tier { display: inline-flex; align-items: center; height: 19px; margin-left: 6px; padding: 0 7px; border-radius: 4px; border: 1px solid rgba(200,170,110,0.35); background: rgba(200,170,110,0.12); color: #c8aa6e; font-size: 0.68rem; font-weight: bold; vertical-align: 1px; }
     .stat-up { color: #58c783; font-weight: bold; }
     .stat-down { color: #ff5c5c; font-weight: bold; }
-    .counter-body { padding: 14px; display: grid; gap: 10px; }
-    .counter-chip { display: flex; justify-content: space-between; gap: 10px; background: rgba(1,10,19,0.58); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 11px; }
+    .counter-body { padding: 12px; display: grid; gap: 7px; }
+    .counter-chip { min-height: 34px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: rgba(1,10,19,0.58); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 6px 10px; font-size: 0.8rem; }
+    .counter-group-title { color: #fff; font-weight: bold; font-size: 0.78rem; margin-top: 2px; }
+    .counter-chip span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .lab-empty-fill { min-height: 150px; display: flex; align-items: center; justify-content: center; margin: 14px; }
     .counter-empty { min-height: 150px; display: flex; align-items: center; justify-content: center; margin: 0; }
     .meta-mini-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
@@ -403,11 +440,15 @@
     .rune-icon.active { opacity: 1; filter: none; border-color: rgba(200,170,110,0.72); box-shadow: 0 0 12px rgba(200,170,110,0.42), inset 0 0 0 1px rgba(240,230,210,0.12); background: rgba(200,170,110,0.12); }
     .rune-icon.keystone { width: 39px; height: 39px; }
     .rune-shards { display: grid; gap: 7px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 12px; }
-    .pagination { display: flex; gap: 6px; justify-content: center; align-items: center; flex-wrap: nowrap; padding: 12px; border-top: 1px solid rgba(255,255,255,0.06); overflow-x: auto; }
-    .page-btn { padding: 7px 10px; min-width: 34px; border-radius: 4px; background: rgba(0,0,0,0.24); border: 1px solid rgba(200,170,110,0.22); color: #f0e6d2; font-size: 0.78rem; white-space: nowrap; flex: 0 0 auto; }
+    .pagination { min-height: 38px; display: flex; gap: 6px; justify-content: center; align-items: center; flex-wrap: nowrap; padding: 5px 12px; border-top: 1px solid rgba(255,255,255,0.06); overflow-x: auto; }
+    .page-btn { min-width: 32px; height: 28px; display: inline-flex; align-items: center; justify-content: center; padding: 0 9px; border-radius: 4px; background: rgba(0,0,0,0.24); border: 1px solid rgba(200,170,110,0.22); color: #f0e6d2; font-size: 0.78rem; line-height: 1; white-space: nowrap; flex: 0 0 auto; }
+    .page-btn span { display: inline-block; transform: translateY(0); }
     .page-btn.active { background: #c8aa6e; color: #010a13; }
     .page-btn:disabled { opacity: 0.38; cursor: default; }
     .page-ellipsis { color: #a09480; font-size: 0.76rem; padding: 0 2px; }
+    #champFavoriteBtn { width: 30px; min-width: 30px; height: 28px; padding: 0; }
+    #champFavoriteBtn.active { background: rgba(200,170,110,0.22); border-color: rgba(200,170,110,0.58); color: #ffd166; }
+    #champFavoriteBtn span { transform: translateY(1px); }
 
     .theme-CHALLENGER { border-color: #d8f7ff; box-shadow: 0 0 36px rgba(91, 217, 255, 0.42), 0 0 18px rgba(244, 236, 184, 0.22); }
     .theme-GRANDMASTER { border-color: #e23b2c; box-shadow: 0 0 30px rgba(226, 59, 44, 0.3); }
@@ -444,7 +485,7 @@
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
     .section-title { font-size: 0.8rem; color: #c8aa6e; margin: 30px 0 15px; border-bottom: 1px solid #3c3c41; padding-bottom: 5px; text-transform: uppercase; letter-spacing: 1.5px; }
-    .summary-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+    .summary-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
     .summary-card { background: rgba(0,0,0,0.28); border: 1px solid #3c3c41; border-radius: 8px; padding: 14px; min-height: 86px; }
     .summary-label { color: #a09480; font-size: 0.75rem; margin-bottom: 8px; }
     .summary-value { color: #fff; font-size: 1.35rem; font-weight: bold; line-height: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -479,7 +520,7 @@
     .mastery-tag { position: absolute; top: -5px; left: 50%; transform: translateX(-50%); background: #c8aa6e; color: #010a13; font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
 
     .current-game { display: none; }
-    .power-panel { background: rgba(0,0,0,0.25); border: 1px solid #3c3c41; border-radius: 8px; padding: 16px; margin-bottom: 14px; }
+    .power-panel { background: rgba(0,0,0,0.25); border: 1px solid #3c3c41; border-radius: 8px; padding: 14px; margin: 0 0 14px; }
     .power-head { display: flex; justify-content: space-between; gap: 12px; align-items: center; margin-bottom: 12px; }
     .power-title { color: #fff; font-weight: bold; }
     .advantage-pill { color: #010a13; background: #c8aa6e; border-radius: 4px; padding: 4px 8px; font-size: 0.75rem; font-weight: bold; white-space: nowrap; }
@@ -487,15 +528,25 @@
     .power-blue { background: #2f80ed; }
     .power-red { background: #c6323e; }
     .power-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-    .power-stat { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; color: #a09480; font-size: 0.78rem; }
-    .power-stat b { color: #f0e6d2; }
+    .power-stat { display: grid; grid-template-columns: 72px repeat(5, minmax(0, 1fr)); gap: 5px; color: #a09480; font-size: 0.72rem; }
+    .power-stat-title { color: #f0e6d2; font-weight: bold; display: flex; align-items: center; justify-content: center; padding-left: 4px; text-align: center; }
+    .power-stat-item { min-width: 0; background: rgba(1,10,19,0.42); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 5px 6px; }
+    .power-stat-item span { display: block; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .power-stat-item b { display: block; color: #f0e6d2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     .team-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; align-items: stretch; }
     .team-panel { background: rgba(0,0,0,0.25); border: 1px solid #3c3c41; border-radius: 8px; overflow: hidden; }
     .team-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: rgba(200,170,110,0.08); color: #fff; font-weight: bold; }
+    .team-panel.team-blue .team-header { background: linear-gradient(90deg, rgba(47,128,237,0.34), rgba(47,128,237,0.12) 42%, rgba(200,170,110,0.06)); border-bottom: 1px solid rgba(47,128,237,0.28); }
+    .team-panel.team-red .team-header { background: linear-gradient(90deg, rgba(198,50,62,0.34), rgba(198,50,62,0.12) 42%, rgba(200,170,110,0.06)); border-bottom: 1px solid rgba(198,50,62,0.28); }
+    .team-header span { padding: 3px 9px; border-radius: 4px; background: rgba(1,10,19,0.22); }
+    .team-panel.team-blue .team-header span { box-shadow: inset 3px 0 0 #2f80ed; }
+    .team-panel.team-red .team-header span { box-shadow: inset 3px 0 0 #c6323e; }
     .team-header small { color: #a09480; font-weight: normal; }
     .player-row { display: grid; grid-template-columns: 42px minmax(0, 1fr) minmax(126px, 0.9fr) minmax(126px, 0.9fr) 104px; gap: 8px; align-items: center; min-height: 62px; padding: 9px 12px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 0.74rem; }
     .player-row.searched { background: rgba(200,170,110,0.12); }
+    .player-row.threat-highlight { background: linear-gradient(90deg, rgba(255,92,92,0.13), rgba(0,0,0,0.02)); box-shadow: inset 3px 0 0 rgba(255,92,92,0.72); }
+    .player-row.threat-watch { background: linear-gradient(90deg, rgba(244,200,116,0.1), rgba(0,0,0,0.02)); box-shadow: inset 3px 0 0 rgba(244,200,116,0.62); }
     .champ-icon { width: 38px; height: 38px; border-radius: 50%; border: 1px solid #3c3c41; object-fit: cover; }
     .player-name, .champ-name, .rank-text, .most-text, .champ-stat-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .player-name, .champ-stat-name { color: #fff; font-weight: bold; }
@@ -527,12 +578,16 @@
       input, button, .input-wrap { width: 100%; }
       .tab-btn { width: auto; }
       .favorite-btn { width: 44px; height: 44px; }
-      .home-hub, .patch-grid, .meta-grid, .lab-toolbar, .lab-grid { grid-template-columns: 1fr; }
+      .home-hub { grid-template-columns: 1fr; }
+      .spotlight-list { grid-template-columns: 1fr; }
+      .patch-grid, .meta-grid, .lab-toolbar, .lab-grid { grid-template-columns: 1fr; }
       .lab-toolbar { gap: 8px; }
       .champ-row { grid-template-columns: 30px 34px minmax(0, 1fr) 54px 54px 54px; font-size: 0.74rem; gap: 7px; }
       .champ-head-grid { grid-template-columns: 30px 34px minmax(0, 1fr) 54px 54px 54px; gap: 7px; }
       .card { padding: 22px; }
       .team-grid, .power-stats, .summary-grid, .analysis-grid { grid-template-columns: 1fr; }
+      .power-stat { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .power-stat-title { grid-column: 1 / -1; }
       .match-row { flex-wrap: wrap; }
       .match-box { min-width: 84px; }
       .most-row { gap: 8px; }
@@ -587,12 +642,12 @@
     </div>
 
     <div id="homeHub" class="home-hub">
-      <div class="hub-panel">
+      <div class="hub-panel home-patch">
         <div class="hub-head">
           <span>최신 패치 26.9 요약</span>
           <a class="hub-link" href="https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-9-notes" target="_blank" rel="noreferrer">공식 패치노트</a>
         </div>
-        <div class="patch-grid">
+        <div id="homePatchGrid" class="patch-grid">
           <div class="patch-card">
             <div class="change-title"><span class="arrow-up">▲</span> 쉬바나</div>
             <p>AD/AP 빌드 차이를 더 살리는 방향의 조정이 들어갔습니다.</p>
@@ -612,12 +667,12 @@
         </div>
       </div>
 
-      <div class="hub-panel">
+      <div class="hub-panel home-meta">
         <div class="hub-head">
           <span>오늘의 메타 체크</span>
-          <small>통계 연동 준비중</small>
+          <small id="homeMetaSource">KR Emerald 실시간 메타</small>
         </div>
-        <div class="meta-grid">
+        <div id="homeMetaGrid" class="meta-grid">
           <div class="meta-card">
             <span class="trend-tag">급상승</span>
             <b>쉬바나</b>
@@ -634,14 +689,24 @@
             <p>패치 직후엔 승률보다 숙련도와 최근 폼을 같이 보는 게 좋습니다.</p>
           </div>
         </div>
+        <div id="homeSpotlightList" class="spotlight-list">
+          <div class="spotlight-item">
+            <img src="" onerror="hideBrokenImage(this)" alt="">
+            <div class="spotlight-name">
+              <b>메타 데이터 로딩 중</b>
+              <span>챔피언 분석 통계를 불러오고 있습니다.</span>
+            </div>
+            <div class="spotlight-stat">-</div>
+          </div>
+        </div>
       </div>
 
-      <div class="hub-panel">
+      <div class="hub-panel home-matchup">
         <div class="hub-head">
           <span>인기 매치업 검색</span>
-          <small>곧 상대법 카드로 확장</small>
+          <small id="homeMatchupSource">OP.GG 통계 기반</small>
         </div>
-        <div class="matchup-list">
+        <div id="homeMatchupList" class="matchup-list">
           <div class="matchup-card">
             <b>탑: 라인전 압박형 vs 성장형</b>
             <p>초반 CS 차이보다 10분 이후 사이드 운영까지 같이 확인하세요.</p>
@@ -653,12 +718,12 @@
         </div>
       </div>
 
-      <div class="hub-panel">
+      <div class="hub-panel home-quick">
         <div class="hub-head">
           <span>검색하면 바로 보는 것</span>
           <small>전적 + LIVE 분석</small>
         </div>
-        <div class="matchup-list">
+        <div id="homeQuickList" class="matchup-list">
           <div class="matchup-card">
             <b>연승/연패 흐름</b>
             <p>프로필 옆 배지로 최근 분위기를 바로 확인합니다.</p>
@@ -683,33 +748,47 @@
               <input id="champSearch" type="text" placeholder="챔피언 검색" oninput="updateChampionClear(); resetChampionSearch()">
               <span id="clearChampSearch" class="clear-input" onclick="clearChampionSearch()">x</span>
             </div>
-            <select id="serverFilter" onchange="resetChampionPage()">
-              <option value="KR">KR</option>
-              <option value="NA">NA</option>
-              <option value="EUW">EUW</option>
-              <option value="JP">JP</option>
-            </select>
-            <select id="tierFilter" onchange="resetChampionPage()">
-              <option value="Iron">Iron</option>
-              <option value="Bronze">Bronze</option>
-              <option value="Silver">Silver</option>
-              <option value="Gold">Gold</option>
-              <option value="Platinum">Platinum</option>
-              <option value="Emerald" selected>Emerald</option>
-              <option value="Diamond">Diamond</option>
-              <option value="Master">Master</option>
-              <option value="Grandmaster">Grandmaster</option>
-              <option value="Challenger">Challenger</option>
-            </select>
-            <select id="positionFilter" onchange="resetChampionPage()">
-              <option value="ALL">전체 포지션</option>
-              <option value="TOP">탑</option>
-              <option value="JUNGLE">정글</option>
-              <option value="MIDDLE">미드</option>
-              <option value="BOTTOM">원딜</option>
-              <option value="UTILITY">서폿</option>
-            </select>
+            <div class="custom-filter-wrap" data-filter="server">
+              <button id="serverFilterButton" class="lab-filter-button" type="button" onclick="toggleCustomFilter('server')"><span id="serverFilterLabel">KR</span></button>
+              <select id="serverFilter" aria-hidden="true" tabindex="-1">
+                <option value="KR">KR</option>
+                <option value="NA">NA</option>
+                <option value="EUW">EUW</option>
+                <option value="JP">JP</option>
+              </select>
+              <div id="serverFilterMenu" class="custom-filter-menu"></div>
+            </div>
+            <div class="tier-filter-wrap">
+              <img id="tierFilterIcon" class="tier-filter-icon" src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-shared-components/global/default/emerald.png" alt="">
+              <button id="tierFilterButton" class="tier-filter-button" type="button" onclick="toggleTierMenu()"><span id="tierFilterLabel">Emerald</span></button>
+              <select id="tierFilter" aria-hidden="true" tabindex="-1">
+                <option value="Challenger">Challenger</option>
+                <option value="Grandmaster">Grandmaster</option>
+                <option value="Master">Master</option>
+                <option value="Diamond">Diamond</option>
+                <option value="Emerald" selected>Emerald</option>
+                <option value="Platinum">Platinum</option>
+                <option value="Gold">Gold</option>
+                <option value="Silver">Silver</option>
+                <option value="Bronze">Bronze</option>
+                <option value="Iron">Iron</option>
+              </select>
+              <div id="tierFilterMenu" class="tier-menu"></div>
+            </div>
+            <div class="custom-filter-wrap" data-filter="position">
+              <button id="positionFilterButton" class="lab-filter-button" type="button" onclick="toggleCustomFilter('position')"><span id="positionFilterLabel">전체 포지션</span></button>
+              <select id="positionFilter" aria-hidden="true" tabindex="-1">
+                <option value="ALL">전체 포지션</option>
+                <option value="TOP">탑</option>
+                <option value="JUNGLE">정글</option>
+                <option value="MIDDLE">미드</option>
+                <option value="BOTTOM">원딜</option>
+                <option value="UTILITY">서폿</option>
+              </select>
+              <div id="positionFilterMenu" class="custom-filter-menu"></div>
+            </div>
           </div>
+          <div id="champFavoriteRow" class="champ-favorite-row"></div>
         </div>
       </div>
       <div class="lab-grid">
@@ -726,8 +805,8 @@
         </div>
         <div class="counter-panel">
           <div class="hub-head">
-            <span id="counterTitle">상대하기 어려운 챔피언</span>
-            <small>카운터 매치업</small>
+            <span id="counterTitle">챔피언</span>
+            <small><button id="champFavoriteBtn" class="page-btn" type="button" onclick="toggleSelectedChampionFavorite()" title="챔피언 즐겨찾기"><span>☆</span></button></small>
           </div>
           <div id="counterBody" class="counter-body"></div>
         </div>
@@ -779,6 +858,24 @@
     let championMetaSource = 'Data Dragon';
     let runeRequestId = 0;
     const CHAMPIONS_PER_PAGE = 15;
+    const CHAMPION_FAVORITE_KEY = 'lolChampionFavorites';
+    const TIER_OPTIONS = ['Challenger', 'Grandmaster', 'Master', 'Diamond', 'Emerald', 'Platinum', 'Gold', 'Silver', 'Bronze', 'Iron'];
+    const FILTER_OPTIONS = {
+      server: [
+        ['KR', 'KR'],
+        ['NA', 'NA'],
+        ['EUW', 'EUW'],
+        ['JP', 'JP']
+      ],
+      position: [
+        ['ALL', '전체 포지션'],
+        ['TOP', '탑'],
+        ['JUNGLE', '정글'],
+        ['MIDDLE', '미드'],
+        ['BOTTOM', '원딜'],
+        ['UTILITY', '서폿']
+      ]
+    };
 
     function escapeHtml(value) {
       return String(value ?? '').replace(/[&<>"']/g, ch => ({
@@ -790,9 +887,18 @@
       }[ch]));
     }
 
+    function jsArg(value) {
+      return encodeURIComponent(String(value ?? ''));
+    }
+
     function championIcon(championId) {
       if (!championId) return '';
       return `https://ddragon.leagueoflegends.com/cdn/${ddragonVersion}/img/champion/${championId}.png`;
+    }
+
+    function tierIcon(tier) {
+      const normalized = String(tier || 'Emerald').toLowerCase();
+      return `https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-shared-components/global/default/${normalized}.png`;
     }
 
     function percent(value) {
@@ -961,11 +1067,15 @@
       document.getElementById('homeHub').style.display = 'none';
       document.getElementById('card-view').style.display = 'none';
       document.getElementById('championLab').style.display = 'block';
+      updateTierIcon();
+      updateCustomFilters();
+      renderChampionFavorites();
       if (championMeta.length) renderChampionLab();
       else loadChampionMeta();
     }
 
     function renderChampionLab() {
+      updateCustomFilters();
       const search = document.getElementById('champSearch')?.value.trim().toLowerCase() || '';
       const position = document.getElementById('positionFilter')?.value || 'ALL';
       const server = document.getElementById('serverFilter')?.value || 'KR';
@@ -981,7 +1091,7 @@
       if (!rows.some(c => c.name === selectedChampion) && rows[0]) selectedChampion = rows[0].name;
 
       const rowHtml = pageRows.map((c, index) => `
-        <div class="champ-row ${c.name === selectedChampion ? 'selected' : ''}" onclick="selectChampion('${escapeHtml(c.name)}')">
+        <div class="champ-row ${c.name === selectedChampion ? 'selected' : ''}" onclick="selectChampion(decodeURIComponent('${jsArg(c.name)}'))">
           <div class="champ-rank">${(championPage - 1) * CHAMPIONS_PER_PAGE + index + 1}</div>
           <img src="${championIcon(c.id)}" onerror="hideBrokenImage(this)" alt="">
           <div class="champ-main">
@@ -997,6 +1107,7 @@
       document.getElementById('championRows').innerHTML = rowHtml ? rowHtml + renderPagination(totalPages) : '<div class="empty-live lab-empty-fill">조건에 맞는 챔피언이 없습니다.</div>';
 
       renderCounters(rows.find(c => c.name === selectedChampion) || rows[0]);
+      renderChampionFavorites();
     }
 
     function resetChampionPage() {
@@ -1032,6 +1143,12 @@
       document.getElementById('champSearch')?.addEventListener('keydown', event => {
         if (event.key === 'Enter') resetChampionSearch();
       });
+
+      document.addEventListener('click', event => {
+        document.querySelectorAll('.tier-filter-wrap, .custom-filter-wrap').forEach(wrap => {
+          if (!wrap.contains(event.target)) wrap.classList.remove('open');
+        });
+      });
     }
 
     function setChampionPage(page) {
@@ -1052,14 +1169,140 @@
       }
       return `
         <div class="pagination">
-          <button class="page-btn" type="button" onclick="setChampionPage(${Math.max(1, championPage - 1)})" ${championPage === 1 ? 'disabled' : ''}>이전</button>
+          <button class="page-btn" type="button" onclick="setChampionPage(${Math.max(1, championPage - 1)})" ${championPage === 1 ? 'disabled' : ''}><span>이전</span></button>
           ${pages.map(page => page === '...'
             ? '<span class="page-ellipsis">...</span>'
-            : `<button class="page-btn ${page === championPage ? 'active' : ''}" type="button" onclick="setChampionPage(${page})">${page}</button>`
+            : `<button class="page-btn ${page === championPage ? 'active' : ''}" type="button" onclick="setChampionPage(${page})"><span>${page}</span></button>`
           ).join('')}
-          <button class="page-btn" type="button" onclick="setChampionPage(${Math.min(totalPages, championPage + 1)})" ${championPage === totalPages ? 'disabled' : ''}>다음</button>
+          <button class="page-btn" type="button" onclick="setChampionPage(${Math.min(totalPages, championPage + 1)})" ${championPage === totalPages ? 'disabled' : ''}><span>다음</span></button>
         </div>
       `;
+    }
+
+    function updateTierIcon() {
+      const tier = document.getElementById('tierFilter')?.value || 'Emerald';
+      const icon = document.getElementById('tierFilterIcon');
+      const label = document.getElementById('tierFilterLabel');
+      if (icon) icon.src = tierIcon(tier);
+      if (label) label.textContent = tier;
+      renderTierMenu();
+    }
+
+    function renderTierMenu() {
+      const menu = document.getElementById('tierFilterMenu');
+      const current = document.getElementById('tierFilter')?.value || 'Emerald';
+      if (!menu) return;
+      menu.innerHTML = TIER_OPTIONS.map(tier => `
+        <button class="tier-option ${tier === current ? 'active' : ''}" type="button" onclick="setTierFilter('${tier}')">
+          <img src="${tierIcon(tier)}" alt="">
+          <span>${tier}</span>
+        </button>
+      `).join('');
+    }
+
+    function toggleTierMenu() {
+      const wrap = document.querySelector('.tier-filter-wrap');
+      if (!wrap) return;
+      renderTierMenu();
+      document.querySelectorAll('.custom-filter-wrap').forEach(item => item.classList.remove('open'));
+      wrap.classList.toggle('open');
+    }
+
+    function setTierFilter(tier) {
+      const select = document.getElementById('tierFilter');
+      const wrap = document.querySelector('.tier-filter-wrap');
+      if (select) select.value = tier;
+      if (wrap) wrap.classList.remove('open');
+      updateTierIcon();
+      resetChampionPage();
+    }
+
+    function renderCustomFilterMenu(type) {
+      const menu = document.getElementById(`${type}FilterMenu`);
+      const current = document.getElementById(`${type}Filter`)?.value;
+      if (!menu) return;
+      menu.innerHTML = (FILTER_OPTIONS[type] || []).map(([value, label]) => `
+        <button class="tier-option ${value === current ? 'active' : ''}" type="button" onclick="setCustomFilter('${type}', '${value}')">
+          <span>${escapeHtml(label)}</span>
+        </button>
+      `).join('');
+    }
+
+    function updateCustomFilters() {
+      Object.keys(FILTER_OPTIONS).forEach(type => {
+        const select = document.getElementById(`${type}Filter`);
+        const label = document.getElementById(`${type}FilterLabel`);
+        const option = (FILTER_OPTIONS[type] || []).find(([value]) => value === select?.value);
+        if (label) label.textContent = option?.[1] || select?.value || '';
+        renderCustomFilterMenu(type);
+      });
+    }
+
+    function toggleCustomFilter(type) {
+      document.querySelectorAll('.custom-filter-wrap, .tier-filter-wrap').forEach(wrap => {
+        if (wrap.dataset.filter !== type) wrap.classList.remove('open');
+      });
+      const wrap = document.querySelector(`.custom-filter-wrap[data-filter="${type}"]`);
+      if (!wrap) return;
+      renderCustomFilterMenu(type);
+      wrap.classList.toggle('open');
+    }
+
+    function setCustomFilter(type, value) {
+      const select = document.getElementById(`${type}Filter`);
+      const wrap = document.querySelector(`.custom-filter-wrap[data-filter="${type}"]`);
+      if (select) select.value = value;
+      if (wrap) wrap.classList.remove('open');
+      updateCustomFilters();
+      resetChampionPage();
+    }
+
+    function loadChampionFavorites() {
+      try {
+        return JSON.parse(localStorage.getItem(CHAMPION_FAVORITE_KEY) || '[]');
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveChampionFavorites(items) {
+      localStorage.setItem(CHAMPION_FAVORITE_KEY, JSON.stringify(items.slice(0, 12)));
+    }
+
+    function renderChampionFavorites() {
+      const row = document.getElementById('champFavoriteRow');
+      const button = document.getElementById('champFavoriteBtn');
+      const favorites = loadChampionFavorites();
+      if (button) {
+        button.classList.toggle('active', favorites.includes(selectedChampion));
+        button.innerHTML = `<span>${favorites.includes(selectedChampion) ? '★' : '☆'}</span>`;
+      }
+      if (!row) return;
+      row.style.display = favorites.length ? 'flex' : 'none';
+      row.innerHTML = favorites.length
+        ? favorites.map(name => `
+          <button class="champ-favorite-chip" type="button" onclick="selectChampion(decodeURIComponent('${jsArg(name)}'))">
+            <span>★ ${escapeHtml(name)}</span>
+            <span class="champ-favorite-x" onclick="removeChampionFavorite(event, decodeURIComponent('${jsArg(name)}'))">x</span>
+          </button>
+        `).join('')
+        : '';
+    }
+
+    function removeChampionFavorite(event, name) {
+      event.stopPropagation();
+      saveChampionFavorites(loadChampionFavorites().filter(item => item !== name));
+      renderChampionFavorites();
+    }
+
+    function toggleSelectedChampionFavorite() {
+      if (!selectedChampion) return;
+      const favorites = loadChampionFavorites();
+      const next = favorites.includes(selectedChampion)
+        ? favorites.filter(name => name !== selectedChampion)
+        : [selectedChampion, ...favorites.filter(name => name !== selectedChampion)];
+      saveChampionFavorites(next);
+      renderChampionFavorites();
     }
 
     function tierLabel(tier) {
@@ -1178,13 +1421,56 @@
         ddragonVersion = d.ddragonVersion || ddragonVersion;
         document.querySelector('#homeHub .hub-head span').innerText = `최신 패치 ${d.patch} 요약`;
         document.querySelector('#homeHub .hub-link').href = d.patchUrl;
-        const patchGrid = document.querySelector('.patch-grid');
+        if (d.metaSource) document.getElementById('homeMetaSource').innerText = d.metaSource;
+        if (d.matchupSource) document.getElementById('homeMatchupSource').innerText = d.matchupSource;
+        const patchGrid = document.getElementById('homePatchGrid');
         patchGrid.innerHTML = (d.cards || []).map(card => `
           <div class="patch-card">
             <div class="change-title"><span class="arrow-${card.type === 'up' ? 'up' : card.type === 'down' ? 'down' : 'neutral'}">${card.type === 'up' ? '▲' : card.type === 'down' ? '▼' : '◆'}</span> ${escapeHtml(card.title)}</div>
             <p>${escapeHtml(card.text)}</p>
           </div>
         `).join('');
+        const metaGrid = document.getElementById('homeMetaGrid');
+        if (metaGrid && d.metaCards?.length) {
+          metaGrid.innerHTML = d.metaCards.map(card => `
+            <div class="meta-card">
+              <span class="trend-tag">${escapeHtml(card.tag)}</span>
+              <b>${escapeHtml(card.title)}</b>
+              <p>${escapeHtml(card.text)}</p>
+            </div>
+          `).join('');
+        }
+        const matchupList = document.getElementById('homeMatchupList');
+        if (matchupList && d.matchupCards?.length) {
+          matchupList.innerHTML = d.matchupCards.map(card => `
+            <div class="matchup-card">
+              <b>${escapeHtml(card.title)}</b>
+              <p>${escapeHtml(card.text)}</p>
+            </div>
+          `).join('');
+        }
+        const quickList = document.getElementById('homeQuickList');
+        if (quickList && d.quickCards?.length) {
+          quickList.innerHTML = d.quickCards.map(card => `
+            <div class="matchup-card">
+              <b>${escapeHtml(card.title)}</b>
+              <p>${escapeHtml(card.text)}</p>
+            </div>
+          `).join('');
+        }
+        const spotlightList = document.getElementById('homeSpotlightList');
+        if (spotlightList && d.spotlightCards?.length) {
+          spotlightList.innerHTML = d.spotlightCards.map(card => `
+            <div class="spotlight-item">
+              <img src="${championIcon(card.id)}" onerror="hideBrokenImage(this)" alt="">
+              <div class="spotlight-name">
+                <b>${escapeHtml(card.name)}</b>
+                <span>${escapeHtml(card.text)}</span>
+              </div>
+              <div class="spotlight-stat">${escapeHtml(card.stat)}</div>
+            </div>
+          `).join('');
+        }
       } catch (e) {}
     }
 
@@ -1305,51 +1591,62 @@
     function renderCounters(champion) {
       const body = document.getElementById('counterBody');
       if (!champion) {
-        document.getElementById('counterTitle').innerText = '상대하기 어려운 챔피언';
+        document.getElementById('counterTitle').innerText = '챔피언';
         body.innerHTML = '<div class="empty-live counter-empty">챔피언을 선택해주세요.</div>';
         return;
       }
-      document.getElementById('counterTitle').innerText = `${champion.name} 카운터`;
+      document.getElementById('counterTitle').innerText = champion.name;
       const fallbackCounters = championMeta
         .filter(c => c.role === champion.role && c.name !== champion.name)
         .sort((a, b) => (a.rank || 999) - (b.rank || 999))
         .slice(0, 3)
         .map(c => c.name);
-      const counters = champion.counters?.length ? champion.counters : fallbackCounters;
+      const counters = [...(champion.counters || []), ...fallbackCounters]
+        .filter((name, index, list) => name && list.indexOf(name) === index)
+        .slice(0, 3);
+      const easyTargets = championMeta
+        .filter(c => c.role === champion.role && c.name !== champion.name && !counters.includes(c.name))
+        .sort((a, b) => (b.rank || 0) - (a.rank || 0))
+        .slice(0, 3)
+        .map(c => c.name);
+      const counterRate = name => {
+        const stat = (champion.counterStats || []).find(item => item.name === name);
+        return stat && Number.isFinite(Number(stat.winRate)) ? `상대 승률 ${percent(stat.winRate)}` : '상대 승률 -';
+      };
+      const easyRate = name => {
+        const target = championMeta.find(c => c.name === name && c.role === champion.role);
+        return target ? `상대 승률 ${percent(100 - Number(target.winRate || 0))}` : '상대 승률 -';
+      };
       selectedChampionKey = champion.key || champion.id?.toLowerCase() || '';
       selectedChampionRole = metaPosition(champion.role || 'ALL');
       body.innerHTML = `
-        <div class="matchup-card">
-          <b>${escapeHtml(champion.name)} 요약</b>
-          <p>승률 ${percent(champion.winRate)} · 픽률 ${percent(champion.pickRate)} · 밴율 ${percent(champion.banRate)}</p>
+        <div class="matchup-card champ-summary-card">
+          <div>
+            <b>${escapeHtml(champion.name)} 요약</b>
+            <p>승률 ${percent(champion.winRate)} · 픽률 ${percent(champion.pickRate)} · 밴율 ${percent(champion.banRate)}</p>
+          </div>
+          <img src="${championIcon(champion.id)}" onerror="hideBrokenImage(this)" alt="">
         </div>
         <div class="meta-mini-grid">
           <div class="meta-mini"><span>랭킹</span><b>${champion.rank || '-'}</b></div>
           <div class="meta-mini"><span>티어</span><b>${escapeHtml(tierLabel(champion.tier))}</b></div>
           <div class="meta-mini"><span>라인 점유</span><b>${roleRateText(champion.roleRate)}</b></div>
         </div>
+        <div id="runeCard" class="rune-card"><div class="lab-muted">룬 데이터를 불러오는 중입니다.</div></div>
+        <div class="counter-group-title">상대하기 어려운 챔피언</div>
         ${counters.map((name, index) => `
           <div class="counter-chip">
             <span>${index + 1}. ${escapeHtml(name)}</span>
-            <span class="${index === 0 ? 'stat-down' : ''}">난이도 ${index === 0 ? '높음' : '주의'}</span>
+            <span class="${index === 0 ? 'stat-down' : ''}">${counterRate(name)}</span>
           </div>
         `).join('')}
-        <div id="runeCard" class="rune-card"><div class="lab-muted">룬 데이터를 불러오는 중입니다.</div></div>
-        <div class="tip-card">
-          <b>매치업 지표</b>
-          <div class="metric-bars">
-            <div class="metric-row"><span>승률</span><div class="metric-track"><div class="metric-fill" style="--value:${metricWidth(champion.winRate, 55)}"></div></div><span>${percent(champion.winRate)}</span></div>
-            <div class="metric-row"><span>픽률</span><div class="metric-track"><div class="metric-fill" style="--value:${metricWidth(champion.pickRate, 15)}"></div></div><span>${percent(champion.pickRate)}</span></div>
-            <div class="metric-row"><span>밴률</span><div class="metric-track"><div class="metric-fill" style="--value:${metricWidth(champion.banRate, 35)}"></div></div><span>${percent(champion.banRate)}</span></div>
+        <div class="counter-group-title">상대하기 쉬운 챔피언</div>
+        ${easyTargets.map((name, index) => `
+          <div class="counter-chip">
+            <span>${index + 1}. ${escapeHtml(name)}</span>
+            <span class="stat-up">${easyRate(name)}</span>
           </div>
-        </div>
-        <div class="tip-card">
-          <b>상대 성향</b>
-          <div class="tip-list">
-            <div class="tip-line"><span class="tip-dot"></span><span>${escapeHtml(championProfile(champion))}</span></div>
-            ${counters?.[0] ? `<div class="tip-line"><span class="tip-dot"></span><span>우선 확인 카운터: ${escapeHtml(counters.slice(0, 2).join(', '))}</span></div>` : ''}
-          </div>
-        </div>
+        `).join('')}
       `;
       loadChampionRunes(champion);
     }
@@ -1543,7 +1840,7 @@
           <div class="power-head">
             <div>
               <div class="power-title">팀 전력 비교</div>
-              <div class="muted" style="font-size:0.72rem">평균 티어: 블루 ${escapeHtml(blue?.summary?.avgTierLabel || 'UNRANKED')} / 레드 ${escapeHtml(red?.summary?.avgTierLabel || 'UNRANKED')}</div>
+              <div class="muted" style="font-size:0.72rem">인게임 티어: ${escapeHtml(currentGame.summary?.avgTierLabel || 'UNRANKED')}</div>
             </div>
             <div class="advantage-pill">${escapeHtml(currentGame.advantage?.label || '비슷함')}</div>
           </div>
@@ -1559,14 +1856,33 @@
       `;
     }
 
+    function laneOpponent(player, currentGame) {
+      const enemyTeam = currentGame.teams
+        .filter(team => team.teamId !== player.teamId)
+        .flatMap(team => team.players || []);
+      return enemyTeam.find(enemy => enemy.position === player.position) || null;
+    }
+
+    function laneCounterHint(player, currentGame) {
+      const enemy = laneOpponent(player, currentGame);
+      if (!enemy?.champion?.name || !player?.champion?.name || !championMeta.length) return '';
+      const playerMeta = championMeta.find(c => c.name === player.champion.name && (c.role === player.position || player.position === 'UNKNOWN'));
+      const enemyMeta = championMeta.find(c => c.name === enemy.champion.name && (c.role === enemy.position || enemy.position === 'UNKNOWN'));
+      if (playerMeta?.counters?.includes(enemy.champion.name)) return `라인 카운터 주의: ${enemy.champion.name}`;
+      if (enemyMeta?.counters?.includes(player.champion.name)) return `라인 상성 유리: ${enemy.champion.name}`;
+      return '';
+    }
+
     function renderTeamSummary(team) {
       const s = team?.summary || {};
       return `
         <div class="power-stat">
-          <b>${escapeHtml(team?.name || '-')}</b><span>전력 ${s.powerScore || 0}</span>
-          <span>평균 승률 ${s.avgWinRate || 0}%</span><span>모스트 픽 ${s.mainPickCount || 0}명</span>
-          <span>평균 티어</span><span>${escapeHtml(s.avgTierLabel || 'UNRANKED')}</span>
-          <span>고숙련</span><span>${s.highMasteryCount || 0}명</span>
+          <div class="power-stat-title">${escapeHtml(team?.name || '-')}</div>
+          <div class="power-stat-item"><span>전력</span><b>${s.powerScore || 0}</b></div>
+          <div class="power-stat-item"><span>평균 승률</span><b>${s.avgWinRate || 0}%</b></div>
+          <div class="power-stat-item"><span>현재픽 숙련</span><b>${s.mainPickCount || 0}명</b></div>
+          <div class="power-stat-item"><span>평균 티어</span><b>${escapeHtml(s.avgTierLabel || 'UNRANKED')}</b></div>
+          <div class="power-stat-item"><span>고숙련</span><b>${s.highMasteryCount || 0}명</b></div>
         </div>
       `;
     }
@@ -1588,10 +1904,13 @@
         const players = team.players.map(p => {
           const playerKey = `${p.name}#${p.tag}`.toLowerCase();
           const isSearched = playerKey === normalizedSearch;
-          const most = p.mostChampion;
-          const reasons = p.threat?.reasons?.length ? p.threat.reasons.join(', ') : '특이사항 없음';
+          const mastery = p.currentChampionMastery || p.mostChampion;
+          const hint = laneCounterHint(p, currentGame);
+          const reasonList = [...(p.threat?.reasons || []), ...(hint ? [hint] : [])];
+          const reasons = reasonList.length ? reasonList.join(', ') : '특이사항 없음';
+          const rowState = p.threat?.level === 'danger' || hint.includes('주의') ? 'threat-highlight' : p.threat?.level === 'warn' ? 'threat-watch' : '';
           return `
-            <div class="player-row ${isSearched ? 'searched' : ''}">
+            <div class="player-row ${isSearched ? 'searched' : ''} ${rowState}">
               <img class="champ-icon" src="${championIcon(p.champion?.id)}" onerror="hideBrokenImage(this)" alt="">
               <div>
                 <div class="player-name">${escapeHtml(p.name)}${p.tag ? `#${escapeHtml(p.tag)}` : ''}</div>
@@ -1602,8 +1921,8 @@
                 <div class="rank-sub">승률 ${p.rank?.winRate || 0}% (${p.rank?.wins || 0}승 ${p.rank?.losses || 0}패)</div>
               </div>
               <div class="player-most">
-                <div class="most-text">${most ? escapeHtml(most.name) : '모스트 없음'}</div>
-                <div class="most-sub">${most ? `숙련도 ${most.level} · ${(most.points / 10000).toFixed(1)}만` : '-'}</div>
+                <div class="most-text">${mastery ? `${escapeHtml(p.champion?.name || '현재픽')} 숙련도` : '숙련도 없음'}</div>
+                <div class="most-sub">${mastery ? `LV ${mastery.level} · ${(mastery.points / 10000).toFixed(1)}만` : '-'}</div>
               </div>
               <div class="threat-cell">
                 <span class="threat-badge threat-${escapeHtml(p.threat?.level || 'safe')}">${escapeHtml(p.threat?.label || '안정')}</span>
@@ -1614,10 +1933,10 @@
         }).join('');
 
         return `
-          <div class="team-panel">
+          <div class="team-panel ${team.teamId === 100 ? 'team-blue' : 'team-red'}">
             <div class="team-header">
               <span>${escapeHtml(team.name)}</span>
-              <small>전력 ${team.summary?.powerScore || 0} · 평균 승률 ${team.summary?.avgWinRate || 0}%</small>
+              <small>전력 ${team.summary?.powerScore || 0} · 평균 승률 ${team.summary?.avgWinRate || 0}% · 평균 티어 ${escapeHtml(team.summary?.avgTierLabel || 'UNRANKED')}</small>
             </div>
             ${players}
           </div>
@@ -1639,6 +1958,9 @@
       }
 
       const most = summary.mostPlayed;
+      const bestPosition = [...(summary.positionStats || [])]
+        .filter(p => p.games >= 2)
+        .sort((a, b) => b.winRate - a.winRate || b.games - a.games)[0] || summary.positionStats?.[0];
       wrap.innerHTML = `
         <div class="summary-card">
           <div class="summary-label">최근 ${summary.count}게임 승률</div>
@@ -1659,6 +1981,11 @@
           <div class="summary-label">많이 한 챔피언</div>
           <div class="summary-value">${most ? escapeHtml(most.name) : '-'}</div>
           <div class="summary-sub">${most ? `${most.games}게임 · 승률 ${most.winRate}%` : '정보 없음'}</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-label">추천 라인</div>
+          <div class="summary-value">${bestPosition ? escapeHtml(roleLabel(bestPosition.key) === '전체' ? '기타' : roleLabel(bestPosition.key)) : '-'}</div>
+          <div class="summary-sub">${bestPosition ? `${bestPosition.games}게임 · 승률 ${bestPosition.winRate}%` : '라인 기록 없음'}</div>
         </div>
       `;
     }
