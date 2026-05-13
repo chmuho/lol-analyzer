@@ -222,6 +222,24 @@
     }
 
     .container { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 1360px; position: relative; z-index: 1; }
+    .site-disclaimer {
+      width: min(100%, 1100px);
+      margin-top: 34px;
+      color: rgba(160, 148, 128, 0.64);
+      font-size: 0.68rem;
+      line-height: 1.55;
+      text-align: center;
+      word-break: keep-all;
+    }
+    .site-disclaimer a {
+      color: rgba(200, 170, 110, 0.72);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(200, 170, 110, 0.22);
+    }
+    .site-disclaimer a:hover {
+      color: rgba(240, 230, 210, 0.86);
+      border-bottom-color: rgba(200, 170, 110, 0.46);
+    }
     .title-row { width: min(100%, 980px); display: grid; grid-template-columns: 260px minmax(0, 1fr) 260px; gap: 14px; align-items: start; }
     .title-main { text-align: center; min-width: 0; }
     h1 {
@@ -841,13 +859,20 @@
         <div id="mosts" class="most-row"></div>
       </div>
     </div>
+
+    <footer class="site-disclaimer">
+      Muho.lol은 친구 및 지인 공유를 위한 비공식 개인 프로젝트입니다.
+      Riot Games가 보증하거나 공식적으로 관여한 서비스가 아니며, Riot Games 및 관련 자산은 Riot Games, Inc.의 상표 또는 등록상표입니다.
+      챔피언 통계 일부는 <a href="https://www.op.gg/" target="_blank" rel="noreferrer">OP.GG</a> 공개 데이터를 참고하며,
+      챔피언 이미지와 정적 게임 데이터는 Riot Data Dragon을 사용합니다.
+    </footer>
   </div>
 
   <script>
     let hasInteracted = false;
     let ambientBgm = null;
     const BGM_TARGET_VOLUME = 0.032;
-    const API_BASE = location.protocol === 'file:' || location.port !== '3000' ? 'http://localhost:3000' : '';
+    const API_BASE = location.protocol === 'file:' ? 'http://localhost:3000' : '';
     let ddragonVersion = '16.9.1';
     let selectedChampion = '';
     let selectedChampionKey = '';

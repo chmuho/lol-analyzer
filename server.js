@@ -3,7 +3,7 @@ const https = require('https');
 require('dotenv').config();
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 let DDRAGON_VERSION = '16.9.1';
 const RECENT_MATCH_COUNT = 10;
 const CACHE_TTL_MS = 5 * 60 * 1000;

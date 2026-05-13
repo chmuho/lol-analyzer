@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: muho-lol
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: RIOT_API_KEY
+        sync: false
