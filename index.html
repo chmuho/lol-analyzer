@@ -7,7 +7,12 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background: #010a13;
+      background:
+        radial-gradient(ellipse at 50% -180px, rgba(91,217,255,0.18), transparent 380px),
+        radial-gradient(circle at 14% 18%, rgba(200,170,110,0.16), transparent 260px),
+        radial-gradient(circle at 88% 16%, rgba(155,77,255,0.10), transparent 310px),
+        linear-gradient(135deg, #02070d 0%, #071523 42%, #010a13 100%);
+      background-size: 130% 130%, 120% 120%, 135% 135%, 200% 200%;
       color: #f0e6d2;
       font-family: 'Malgun Gothic', sans-serif;
       min-height: 100vh;
@@ -17,25 +22,285 @@
       justify-content: flex-start;
       overflow-x: hidden;
       padding: 70px 20px 120px;
+      animation: cosmicBackdrop 18s ease-in-out infinite alternate;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 28% 34%, rgba(45,198,214,0.11), transparent 310px),
+        radial-gradient(circle at 72% 24%, rgba(185,128,255,0.09), transparent 330px),
+        radial-gradient(ellipse at 46% 96%, rgba(200,170,110,0.12), transparent 430px);
+      opacity: 0.78;
+      z-index: 0;
+      mix-blend-mode: screen;
+      animation: ambientDrift 14s ease-in-out infinite alternate;
+    }
+    body::after {
+      content: "";
+      position: fixed;
+      inset: -34px;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(1,10,19,0.78), rgba(1,10,19,0.9)),
+        url("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/AurelionSol_0.jpg") center 32% / cover no-repeat;
+      opacity: 0.38;
+      z-index: 0;
+      animation: cosmicBreath 10s ease-in-out infinite alternate;
+    }
+    @keyframes cosmicBreath {
+      0% { transform: scale(1.01) translate3d(0, 8px, 0) rotate(0deg); filter: brightness(0.88) saturate(1.02); }
+      45% { transform: scale(1.075) translate3d(-16px, 0, 0) rotate(-0.35deg); filter: brightness(1.1) saturate(1.15); }
+      100% { transform: scale(1.13) translate3d(-34px, 28px, 0) rotate(0.28deg); filter: brightness(1.2) saturate(1.24); }
+    }
+    @keyframes cosmicBackdrop {
+      from { background-position: 50% 0%, 14% 18%, 88% 16%, 0% 50%; }
+      to { background-position: 48% 6%, 18% 22%, 82% 20%, 100% 50%; }
+    }
+    @keyframes ambientDrift {
+      from { transform: translate3d(-18px, 10px, 0) scale(1); opacity: 0.52; }
+      to { transform: translate3d(22px, -16px, 0) scale(1.08); opacity: 0.86; }
+    }
+    .cosmic-aurora {
+      position: fixed;
+      left: -16%;
+      right: -16%;
+      bottom: -22%;
+      height: 52vh;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.72;
+      mix-blend-mode: screen;
+      background:
+        radial-gradient(ellipse at 18% 80%, rgba(91,217,255,0.42), transparent 45%),
+        radial-gradient(ellipse at 54% 72%, rgba(108,92,255,0.28), transparent 44%),
+        radial-gradient(ellipse at 84% 76%, rgba(200,170,110,0.34), transparent 42%),
+        linear-gradient(100deg, transparent 4%, rgba(36,218,190,0.28) 25%, rgba(93,117,255,0.24) 47%, rgba(205,92,255,0.18) 61%, rgba(200,170,110,0.28) 77%, transparent 94%);
+      filter: blur(16px);
+      transform: skewY(-4deg);
+      animation: auroraFlow 7s ease-in-out infinite alternate;
+    }
+    .cosmic-aurora::before,
+    .cosmic-aurora::after {
+      content: "";
+      position: absolute;
+      inset: 8% -4% 0;
+      border-radius: 50%;
+      background:
+        linear-gradient(82deg, transparent 0 15%, rgba(216,247,255,0.18) 30%, transparent 43% 52%, rgba(200,170,110,0.18) 67%, transparent 82% 100%);
+      filter: blur(12px);
+      animation: auroraRibbon 6.5s ease-in-out infinite alternate;
+    }
+    .cosmic-aurora::after {
+      inset: 18% -8% 4%;
+      opacity: 0.72;
+      animation-duration: 8.5s;
+      animation-direction: alternate-reverse;
+    }
+    .cosmic-planet {
+      position: fixed;
+      right: 8%;
+      top: 28%;
+      width: 118px;
+      height: 118px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.32;
+      background:
+        radial-gradient(circle at 32% 28%, rgba(216,247,255,0.55), transparent 18%),
+        radial-gradient(circle at 58% 62%, rgba(91,217,255,0.34), transparent 34%),
+        linear-gradient(135deg, rgba(18,42,63,0.95), rgba(8,13,28,0.96));
+      box-shadow: 0 0 48px rgba(91,217,255,0.28), inset -18px -16px 28px rgba(0,0,0,0.45);
+      animation: planetDrift 24s ease-in-out infinite alternate;
+    }
+    .cosmic-ring {
+      position: fixed;
+      left: 50%;
+      top: 48%;
+      width: min(72vw, 760px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.18;
+      border: 1px solid rgba(216,247,255,0.28);
+      box-shadow: 0 0 70px rgba(91,217,255,0.16), inset 0 0 90px rgba(200,170,110,0.07);
+      transform: translate(-50%, -50%) rotateX(72deg) rotateZ(-14deg);
+      animation: ringDrift 28s ease-in-out infinite alternate;
+    }
+    .aurelion-mane {
+      position: fixed;
+      left: 39%;
+      top: 21%;
+      width: 270px;
+      height: 140px;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.31;
+      mix-blend-mode: screen;
+      background:
+        radial-gradient(ellipse at 30% 45%, rgba(216,247,255,0.38), transparent 52%),
+        radial-gradient(ellipse at 70% 30%, rgba(200,170,110,0.28), transparent 46%);
+      filter: blur(14px);
+      animation: maneDrift 2.9s ease-in-out infinite alternate;
+    }
+    @keyframes maneDrift {
+      0% { transform: translate3d(-12px, 6px, 0) skewX(-6deg) scaleX(0.94) scaleY(0.96); opacity: 0.22; }
+      50% { transform: translate3d(4px, -7px, 0) skewX(3deg) scaleX(1.04) scaleY(1.06); opacity: 0.37; }
+      100% { transform: translate3d(18px, -11px, 0) skewX(8deg) scaleX(1.1) scaleY(1.02); opacity: 0.29; }
+    }
+    @keyframes auroraFlow {
+      from { transform: translate3d(-34px, 14px, 0) skewY(-4deg) scaleY(0.9); opacity: 0.46; }
+      to { transform: translate3d(42px, -16px, 0) skewY(-1.5deg) scaleY(1.12); opacity: 0.78; }
+    }
+    @keyframes auroraRibbon {
+      from { transform: translateX(-5%) rotate(-2deg); opacity: 0.28; }
+      to { transform: translateX(6%) rotate(2deg); opacity: 0.72; }
+    }
+    @keyframes ringDrift {
+      from { transform: translate(-50%, -50%) rotateX(72deg) rotateZ(-14deg) scale(0.96); }
+      to { transform: translate(-50%, -48%) rotateX(72deg) rotateZ(8deg) scale(1.04); }
+    }
+    @keyframes planetDrift {
+      from { transform: translateY(0); }
+      to { transform: translateY(18px); }
+    }
+    .particle-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: rgba(221, 198, 137, 0.9);
+      box-shadow: 0 0 16px rgba(200, 170, 110, 0.7);
+      animation: floatParticle linear infinite;
+    }
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      background: rgba(238, 252, 255, 0.94);
+      box-shadow: 0 0 13px rgba(91, 217, 255, 0.8), 0 0 24px rgba(216, 247, 255, 0.32);
+      animation: twinkleStar ease-in-out infinite;
+    }
+    .shooting-star {
+      position: absolute;
+      width: 120px;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, rgba(216,247,255,0.95), transparent);
+      box-shadow: 0 0 22px rgba(91,217,255,0.78);
+      transform: rotate(-28deg);
+      animation: shootStar linear infinite;
+      opacity: 0;
+    }
+    @keyframes twinkleStar {
+      0%, 100% { opacity: 0.15; transform: translate3d(0, 0, 0) scale(0.8); }
+      50% { opacity: 1; transform: translate3d(10px, -12px, 0) scale(1.75); }
+    }
+    @keyframes shootStar {
+      0% { opacity: 0; transform: translate(0, 0) rotate(-28deg); }
+      8% { opacity: 0.85; }
+      28% { opacity: 0; transform: translate(-360px, 210px) rotate(-28deg); }
+      100% { opacity: 0; transform: translate(-360px, 210px) rotate(-28deg); }
+    }
+    @keyframes floatParticle {
+      from { transform: translateY(20px); opacity: 0; }
+      15% { opacity: 0.8; }
+      85% { opacity: 0.45; }
+      to { transform: translateY(-120px); opacity: 0; }
     }
 
-    .container { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 1180px; }
-    h1 { font-size: 2.8rem; color: #f0e6d2; margin-bottom: 10px; letter-spacing: 1px; text-align: center; }
-    .sub-title { color: #a09480; font-size: 1.1rem; margin-bottom: 35px; text-align: center; }
+    .container { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 1360px; position: relative; z-index: 1; }
+    .title-row { width: min(100%, 980px); display: grid; grid-template-columns: 260px minmax(0, 1fr) 260px; gap: 14px; align-items: start; }
+    .title-main { text-align: center; min-width: 0; }
+    h1 {
+      font-size: 3rem;
+      color: #f0e6d2;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+      text-align: center;
+      background: linear-gradient(180deg, #ffffff 8%, #f0e6d2 42%, #c8aa6e 78%, #8f6f2f 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 26px rgba(216,247,255,0.16), 0 0 34px rgba(200,170,110,0.24);
+    }
+    .sub-title { color: #a09480; font-size: 1.1rem; margin-bottom: 28px; text-align: center; }
+    .top-tabs { display: flex; gap: 10px; justify-content: center; margin-bottom: 18px; flex-wrap: wrap; }
+    .tab-btn, .ghost-btn {
+      padding: 10px 16px;
+      border: 1px solid rgba(200,170,110,0.28);
+      border-radius: 6px;
+      background: rgba(0,0,0,0.22);
+      color: #f0e6d2;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.25s;
+    }
+    .tab-btn.active, .tab-btn:hover, .ghost-btn:hover { background: #c8aa6e; color: #010a13; }
 
-    .search-area { margin-bottom: 40px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-    input { padding: 15px; background: #1e2328; border: 1px solid #3c3c41; color: #f0e6d2; border-radius: 4px; font-size: 1rem; width: 220px; transition: 0.3s; outline: none; }
+    .search-area {
+      width: 100%;
+      margin-bottom: 0;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      background: linear-gradient(180deg, rgba(30,35,40,0.86), rgba(10,20,30,0.76));
+      border: 1px solid rgba(200,170,110,0.35);
+      box-shadow: 0 18px 45px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.04);
+      border-radius: 8px;
+      padding: 14px;
+    }
+    .search-shell { width: min(100%, 980px); display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .side-lists { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+    .side-panel { background: rgba(0,0,0,0.22); border: 1px solid rgba(200,170,110,0.2); border-radius: 8px; overflow: hidden; }
+    .side-title { padding: 10px 12px; color: #fff; font-weight: bold; background: rgba(200,170,110,0.08); font-size: 0.82rem; }
+    input { padding: 15px; background: rgba(1,10,19,0.72); border: 1px solid #3c3c41; color: #f0e6d2; border-radius: 4px; font-size: 1rem; width: 220px; transition: 0.3s; outline: none; }
+    .input-wrap { position: relative; width: 220px; }
+    .input-wrap input { width: 100%; padding-right: 38px; }
+    .clear-input { position: absolute; right: 9px; top: calc(50% - 5px); transform: translateY(-50%); color: #a09480; cursor: pointer; font-weight: bold; font-size: 0.9rem; line-height: 1; display: none; }
+    .clear-input:hover { color: #f0e6d2; }
     input:focus { border-color: #c8aa6e; box-shadow: 0 0 10px rgba(200, 170, 110, 0.3); }
-    button { padding: 15px 35px; background: #c8aa6e; color: #010a13; border: none; font-weight: bold; cursor: pointer; font-size: 1rem; transition: 0.3s; }
+    button { padding: 15px 35px; background: #c8aa6e; color: #010a13; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem; transition: 0.3s; }
     button:hover { background: #f0e6d2; }
+    button:disabled { opacity: 0.6; cursor: wait; }
 
-    #card-view { width: min(100%, 1040px); display: none; justify-content: center; margin-top: 10px; margin-bottom: 120px; }
+    .history-row { display: flex; gap: 8px; flex-wrap: nowrap; justify-content: center; min-height: 24px; padding: 1px 6px; margin: 0; overflow-x: auto; }
+    #historyRow { padding-bottom: 0; }
+    .side-panel.history-panel { width: min(100%, 720px); }
+    .favorite-panel .history-row { flex-direction: column; align-items: stretch; overflow: visible; }
+    .favorite-panel .history-chip { justify-content: space-between; }
+    .favorite-panel .history-chip span:nth-child(2) { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .favorite-panel { margin-top: 6px; min-height: 82px; }
+    .favorite-panel .side-title { padding: 8px 10px; }
+    .favorite-panel .history-row { min-height: 42px; padding: 6px; }
+    .favorite-panel .muted { font-size: 0.72rem; white-space: nowrap; display: block; text-align: center; padding: 2px 0; }
+    .favorite-row { display: none; gap: 8px; flex-wrap: wrap; justify-content: center; min-height: 32px; margin-bottom: 28px; }
+    .history-chip { display: inline-flex; align-items: center; gap: 7px; padding: 7px 10px; border: 1px solid rgba(200,170,110,0.25); background: rgba(0,0,0,0.25); color: #f0e6d2; border-radius: 4px; font-size: 0.78rem; cursor: pointer; }
+    .history-chip:hover { border-color: #c8aa6e; color: #c8aa6e; }
+    .chip-x { color: #a09480; font-weight: bold; padding-left: 3px; }
+    .chip-x:hover { color: #ff5c5c; }
+    .chip-star { color: #c8aa6e; }
+
+    #card-view { width: min(100%, 1240px); display: none; justify-content: center; margin-top: 0; margin-bottom: 120px; }
     .card {
       width: 100%;
       background: #1a1f2e;
       border: 2px solid #3c3c41;
       border-radius: 15px;
-      padding: 36px 36px 52px;
+      padding: 36px 36px 20px;
       position: relative;
       opacity: 0;
       transform: translateX(100px);
@@ -44,13 +309,65 @@
     .card.active { opacity: 1; transform: translateX(0); }
     .card.slide-out { opacity: 0; transform: translateX(-100px); }
 
-    .theme-CHALLENGER { border-color: #f4c874; box-shadow: 0 0 30px rgba(244, 200, 116, 0.3); }
+    .loading-panel {
+      display: none;
+      width: min(100%, 520px);
+      background: rgba(0,0,0,0.28);
+      border: 1px solid #3c3c41;
+      border-radius: 8px;
+      padding: 18px;
+      margin-top: 12px;
+      text-align: center;
+      color: #c8aa6e;
+    }
+    .loading-bar { height: 6px; background: #010a13; border-radius: 999px; overflow: hidden; margin-top: 12px; }
+    .loading-fill { width: 35%; height: 100%; background: #c8aa6e; animation: loadingMove 1s infinite alternate; }
+    @keyframes loadingMove { from { transform: translateX(-40%); } to { transform: translateX(210%); } }
+
+    .home-hub { width: min(100%, 1160px); display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 14px; margin-top: 2px; }
+    .hub-panel { background: rgba(0,0,0,0.24); border: 1px solid rgba(200,170,110,0.24); border-radius: 8px; overflow: hidden; box-shadow: 0 14px 34px rgba(0,0,0,0.22); }
+    .hub-head { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 13px 15px; background: rgba(200,170,110,0.08); color: #fff; font-weight: bold; }
+    .hub-head small, .hub-link { color: #a09480; font-weight: normal; font-size: 0.78rem; }
+    .hub-link { text-decoration: none; }
+    .hub-link:hover { color: #c8aa6e; }
+    .patch-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 14px; }
+    .patch-card, .meta-card, .matchup-card { background: rgba(1,10,19,0.58); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px; }
+    .change-title { display: flex; align-items: center; gap: 8px; color: #fff; font-weight: bold; margin-bottom: 7px; }
+    .arrow-up { color: #58c783; }
+    .arrow-down { color: #ff5c5c; }
+    .arrow-neutral { color: #c8aa6e; }
+    .patch-card p, .meta-card p, .matchup-card p { color: #a09480; font-size: 0.78rem; line-height: 1.45; }
+    .meta-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; padding: 14px; }
+    .meta-card b, .matchup-card b { display: block; color: #fff; margin-bottom: 6px; }
+    .trend-tag { display: inline-block; padding: 3px 7px; border-radius: 4px; background: rgba(88,199,131,0.15); color: #58c783; font-size: 0.68rem; font-weight: bold; margin-bottom: 8px; }
+    .matchup-list { display: grid; gap: 10px; padding: 14px; }
+    .champion-lab { width: min(100%, 1160px); display: none; margin-top: 18px; }
+    .lab-toolbar { display: grid; grid-template-columns: 1.2fr repeat(3, minmax(120px, 0.6fr)); gap: 10px; background: linear-gradient(180deg, rgba(30,35,40,0.86), rgba(10,20,30,0.76)); border: 1px solid rgba(200,170,110,0.28); border-radius: 8px; padding: 14px; margin-bottom: 14px; }
+    select { padding: 13px; background: rgba(1,10,19,0.72); border: 1px solid #3c3c41; color: #f0e6d2; border-radius: 4px; font-size: 0.95rem; outline: none; }
+    .lab-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 14px; }
+    .champion-table, .counter-panel { background: rgba(0,0,0,0.25); border: 1px solid rgba(200,170,110,0.2); border-radius: 8px; overflow: hidden; }
+    .champ-row { display: grid; grid-template-columns: 38px 40px minmax(0, 1fr) 70px 70px 70px; gap: 10px; align-items: center; padding: 11px 14px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 0.82rem; cursor: pointer; }
+    .champ-row:hover, .champ-row.selected { background: rgba(200,170,110,0.11); }
+    .champ-rank { color: #c8aa6e; font-weight: bold; text-align: center; font-size: 0.78rem; }
+    .champ-row img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; }
+    .champ-main { min-width: 0; }
+    .champ-main b { display: block; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .champ-main span, .lab-muted { color: #a09480; font-size: 0.74rem; }
+    .stat-up { color: #58c783; font-weight: bold; }
+    .stat-down { color: #ff5c5c; font-weight: bold; }
+    .counter-body { padding: 14px; display: grid; gap: 10px; }
+    .counter-chip { display: flex; justify-content: space-between; gap: 10px; background: rgba(1,10,19,0.58); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 11px; }
+    .pagination { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; padding: 12px; border-top: 1px solid rgba(255,255,255,0.06); }
+    .page-btn { padding: 7px 10px; min-width: 34px; border-radius: 4px; background: rgba(0,0,0,0.24); border: 1px solid rgba(200,170,110,0.22); color: #f0e6d2; font-size: 0.78rem; }
+    .page-btn.active { background: #c8aa6e; color: #010a13; }
+
+    .theme-CHALLENGER { border-color: #d8f7ff; box-shadow: 0 0 36px rgba(91, 217, 255, 0.42), 0 0 18px rgba(244, 236, 184, 0.22); }
     .theme-GRANDMASTER { border-color: #e23b2c; box-shadow: 0 0 30px rgba(226, 59, 44, 0.3); }
     .theme-MASTER { border-color: #9b4dff; box-shadow: 0 0 30px rgba(155, 77, 255, 0.3); }
     .theme-DIAMOND { border-color: #5765d1; box-shadow: 0 0 30px rgba(87, 101, 209, 0.3); }
     .theme-EMERALD { border-color: #00a86b; box-shadow: 0 0 30px rgba(0, 168, 107, 0.28); }
     .theme-PLATINUM { border-color: #4e9996; box-shadow: 0 0 30px rgba(78, 153, 150, 0.25); }
-    .theme-GOLD { border-color: #c89b3c; box-shadow: 0 0 30px rgba(200, 155, 60, 0.28); }
+    .theme-GOLD { border-color: #b7791f; box-shadow: 0 0 30px rgba(183, 121, 31, 0.32); }
     .theme-SILVER { border-color: #aeb6bf; box-shadow: 0 0 30px rgba(174, 182, 191, 0.22); }
     .theme-BRONZE { border-color: #b0784f; box-shadow: 0 0 30px rgba(176, 120, 79, 0.25); }
     .theme-IRON { border-color: #6f6f75; box-shadow: 0 0 30px rgba(111, 111, 117, 0.22); }
@@ -61,40 +378,55 @@
     .p-info { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
     .name-wrapper { display: flex; align-items: center; gap: 10px; width: 100%; }
     #pName { font-size: 1.8rem; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 0 1 auto; }
+    .favorite-btn { width: 44px; height: 44px; padding: 0; margin-left: auto; flex-shrink: 0; border: 1px solid rgba(200,170,110,0.45); background: rgba(0,0,0,0.22); color: #c8aa6e; font-size: 1.35rem; line-height: 1; }
+    .favorite-btn.active { background: #c8aa6e; color: #010a13; }
 
-    .ingame-badge {
-      background: #e23b2c;
+    .ingame-badge, .streak-badge {
       color: white;
       padding: 4px 10px;
       border-radius: 4px;
       font-size: 0.7rem;
       font-weight: bold;
-      animation: pulse 2s infinite;
       flex-shrink: 0;
     }
+    .ingame-badge { background: #e23b2c; animation: pulse 2s infinite; }
+    .streak-win { background: #23a04a; }
+    .streak-loss { background: #c6323e; }
+    .streak-none { background: #3c3c41; }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
     .section-title { font-size: 0.8rem; color: #c8aa6e; margin: 30px 0 15px; border-bottom: 1px solid #3c3c41; padding-bottom: 5px; text-transform: uppercase; letter-spacing: 1.5px; }
+    .summary-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+    .summary-card { background: rgba(0,0,0,0.28); border: 1px solid #3c3c41; border-radius: 8px; padding: 14px; min-height: 86px; }
+    .summary-label { color: #a09480; font-size: 0.75rem; margin-bottom: 8px; }
+    .summary-value { color: #fff; font-size: 1.35rem; font-weight: bold; line-height: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .summary-sub { color: #c8aa6e; font-size: 0.75rem; margin-top: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .analysis-grid { display: grid; grid-template-columns: 1.35fr 0.85fr; gap: 14px; }
+    .analysis-panel { background: rgba(0,0,0,0.25); border: 1px solid #3c3c41; border-radius: 8px; overflow: hidden; }
+    .panel-head { padding: 12px 14px; background: rgba(200,170,110,0.08); color: #fff; font-weight: bold; }
+    .champ-stat-row { display: grid; grid-template-columns: 38px minmax(0, 1fr) 72px 68px; gap: 10px; align-items: center; padding: 10px 12px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 0.78rem; }
+    .position-row { padding: 10px 12px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 0.78rem; }
+    .position-head { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 7px; }
+    .position-bar { height: 6px; background: #010a13; border-radius: 999px; overflow: hidden; }
+    .position-fill { height: 100%; background: #c8aa6e; }
+
     .match-row { display: flex; gap: 8px; }
     .match-box { flex: 1; padding: 12px 5px; border-radius: 8px; text-align: center; font-size: 0.75rem; border: 1px solid rgba(255,255,255,0.05); }
     .win-box { background: rgba(35, 160, 74, 0.12); border-color: #23a04a; }
     .loss-box { background: rgba(198, 50, 62, 0.12); border-color: #c6323e; }
-    .match-box img { width: 32px; border-radius: 50%; margin-bottom: 5px; }
-    .summary-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
-    .summary-card { background: rgba(0,0,0,0.28); border: 1px solid #3c3c41; border-radius: 8px; padding: 14px; min-height: 86px; }
-    .summary-label { color: #a09480; font-size: 0.75rem; margin-bottom: 8px; }
-    .summary-value { color: #fff; font-size: 1.35rem; font-weight: bold; line-height: 1; }
-    .summary-sub { color: #c8aa6e; font-size: 0.75rem; margin-top: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .match-box img, .champ-stat-row img { width: 32px; height: 32px; object-fit: cover; border-radius: 50%; margin-bottom: 5px; }
+    .champ-stat-row img { margin-bottom: 0; }
 
     .rank-card { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 12px; margin-top: 8px; display: flex; align-items: center; gap: 20px; }
     .tier-img { width: 60px; height: 60px; object-fit: contain; }
     .lp-bar-bg { width: 100%; height: 6px; background: #010a13; border-radius: 10px; margin-top: 10px; overflow: hidden; }
     .lp-bar-fill { height: 100%; background: #c8aa6e; transition: width 1s; }
 
-    .most-row { display: flex; justify-content: space-between; text-align: center; margin-top: 10px; }
-    #mosts { margin-bottom: 18px; }
-    .most-item { width: 30%; position: relative; }
-    .most-img { width: 65px; border-radius: 50%; border: 2px solid #3c3c41; margin-bottom: 8px; }
+    .most-row { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; text-align: center; margin-top: 8px; }
+    #mosts { margin-bottom: -8px; }
+    .most-item { position: relative; min-width: 0; }
+    .most-img { width: 62px; border-radius: 50%; border: 2px solid #3c3c41; margin-bottom: 5px; }
     .mastery-tag { position: absolute; top: -5px; left: 50%; transform: translateX(-50%); background: #c8aa6e; color: #010a13; font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
 
     .current-game { display: none; }
@@ -109,19 +441,20 @@
     .power-stat { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; color: #a09480; font-size: 0.78rem; }
     .power-stat b { color: #f0e6d2; }
 
-    .team-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .team-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; align-items: stretch; }
     .team-panel { background: rgba(0,0,0,0.25); border: 1px solid #3c3c41; border-radius: 8px; overflow: hidden; }
     .team-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: rgba(200,170,110,0.08); color: #fff; font-weight: bold; }
     .team-header small { color: #a09480; font-weight: normal; }
-    .player-row { display: grid; grid-template-columns: 42px minmax(0, 1.25fr) minmax(92px, 0.75fr) minmax(90px, 0.75fr) 58px; gap: 10px; align-items: center; padding: 10px 12px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 0.78rem; }
+    .player-row { display: grid; grid-template-columns: 42px minmax(0, 1fr) minmax(126px, 0.9fr) minmax(126px, 0.9fr) 104px; gap: 8px; align-items: center; min-height: 62px; padding: 9px 12px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 0.74rem; }
     .player-row.searched { background: rgba(200,170,110,0.12); }
     .champ-icon { width: 38px; height: 38px; border-radius: 50%; border: 1px solid #3c3c41; object-fit: cover; }
-    .player-name, .champ-name, .rank-text, .most-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .player-name { color: #fff; font-weight: bold; }
-    .champ-name, .rank-sub, .most-sub, .threat-reason { color: #a09480; margin-top: 2px; }
+    .player-name, .champ-name, .rank-text, .most-text, .champ-stat-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .player-name, .champ-stat-name { color: #fff; font-weight: bold; }
+    .champ-name, .rank-sub, .most-sub, .threat-reason, .muted { color: #a09480; margin-top: 2px; }
+    .rank-sub, .most-sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .rank-text { color: #f0e6d2; font-weight: bold; }
     .most-text { color: #c8aa6e; font-weight: bold; }
-    .threat-cell { text-align: right; min-width: 0; }
+    .threat-cell { text-align: left; min-width: 0; }
     .threat-badge { display: inline-block; border-radius: 4px; padding: 4px 7px; font-size: 0.7rem; font-weight: bold; color: #010a13; }
     .threat-danger { background: #ff5c5c; }
     .threat-warn { background: #f4c874; }
@@ -132,8 +465,18 @@
     @media (max-width: 920px) {
       body { padding: 40px 16px 110px; }
       h1 { font-size: 2.1rem; }
+      .title-row { grid-template-columns: 1fr; }
+      .title-row > div:first-child { display: none; }
+      .search-shell { width: 100%; }
+      .side-lists { width: 100%; }
+      .search-area { width: 100%; padding: 12px; }
+      input, button, .input-wrap { width: 100%; }
+      .tab-btn { width: auto; }
+      .favorite-btn { width: 44px; height: 44px; }
+      .home-hub, .patch-grid, .meta-grid, .lab-toolbar, .lab-grid { grid-template-columns: 1fr; }
+      .champ-row { grid-template-columns: 30px 34px minmax(0, 1fr) 54px 54px 54px; font-size: 0.74rem; gap: 7px; }
       .card { padding: 22px; }
-      .team-grid, .power-stats, .summary-grid { grid-template-columns: 1fr; }
+      .team-grid, .power-stats, .summary-grid, .analysis-grid { grid-template-columns: 1fr; }
       .match-row { flex-wrap: wrap; }
       .match-box { min-width: 84px; }
       .most-row { gap: 8px; }
@@ -144,16 +487,180 @@
   </style>
 </head>
 <body>
-  <audio id="bgm" src="bgm.mp3" loop></audio>
-
+  <div id="particleLayer" class="particle-layer"></div>
+  <div class="cosmic-aurora"></div>
+  <div class="cosmic-planet"></div>
+  <div class="cosmic-ring"></div>
+  <div class="aurelion-mane"></div>
   <div class="container">
-    <h1>LOL SEARCH PRO</h1>
-    <p class="sub-title">실시간 전적과 인게임 상태를 확인하세요</p>
+    <div class="title-row">
+      <div></div>
+      <div class="title-main">
+        <h1>MUHO.LOL</h1>
+        <p class="sub-title">실시간 전적과 인게임 상태를 확인하세요</p>
+        <div class="top-tabs">
+          <button id="homeTab" class="tab-btn active" type="button" onclick="showHome()">홈</button>
+          <button id="championTab" class="tab-btn" type="button" onclick="showChampionLab()">챔피언 분석</button>
+        </div>
+      </div>
+      <div id="sideLists" class="side-lists">
+        <div class="side-panel favorite-panel">
+          <div class="side-title">즐겨찾기</div>
+          <div id="favoriteRow" class="history-row"></div>
+        </div>
+      </div>
+    </div>
 
-    <div class="search-area">
-      <input type="text" id="iName" placeholder="소환사명">
-      <input type="text" id="iTag" placeholder="태그">
-      <button onclick="performSlideSearch()">조회하기</button>
+    <div id="searchShell" class="search-shell">
+      <div class="search-area">
+        <div class="input-wrap">
+          <input type="text" id="iName" placeholder="소환사명" oninput="updateClearButtons()">
+          <span id="clearName" class="clear-input" onclick="clearInput('iName')">x</span>
+        </div>
+        <div class="input-wrap">
+          <input type="text" id="iTag" placeholder="태그" oninput="updateClearButtons()">
+          <span id="clearTag" class="clear-input" onclick="clearInput('iTag')">x</span>
+        </div>
+        <button id="searchBtn" onclick="performSlideSearch()">조회하기</button>
+      </div>
+      <div id="historyRow" class="history-row"></div>
+    </div>
+    <div id="loadingPanel" class="loading-panel">
+      전적 분석 중...
+      <div class="loading-bar"><div class="loading-fill"></div></div>
+    </div>
+
+    <div id="homeHub" class="home-hub">
+      <div class="hub-panel">
+        <div class="hub-head">
+          <span>최신 패치 26.9 요약</span>
+          <a class="hub-link" href="https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-9-notes" target="_blank" rel="noreferrer">공식 패치노트</a>
+        </div>
+        <div class="patch-grid">
+          <div class="patch-card">
+            <div class="change-title"><span class="arrow-up">▲</span> 쉬바나</div>
+            <p>AD/AP 빌드 차이를 더 살리는 방향의 조정이 들어갔습니다.</p>
+          </div>
+          <div class="patch-card">
+            <div class="change-title"><span class="arrow-down">▼</span> 죽음불꽃 손길</div>
+            <p>지속 피해 계수와 장기 교전 증폭량이 낮아졌습니다.</p>
+          </div>
+          <div class="patch-card">
+            <div class="change-title"><span class="arrow-up">▲</span> 역할 퀘스트</div>
+            <p>진행이 더 직관적이고 덜 답답하도록 보상/진행 구조가 조정됐습니다.</p>
+          </div>
+          <div class="patch-card">
+            <div class="change-title"><span class="arrow-neutral">◆</span> 신규 빌드 옵션</div>
+            <p>새 시작 아이템과 대체 빌드 선택지가 추가되어 초반 설계 폭이 넓어졌습니다.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hub-panel">
+        <div class="hub-head">
+          <span>오늘의 메타 체크</span>
+          <small>통계 연동 준비중</small>
+        </div>
+        <div class="meta-grid">
+          <div class="meta-card">
+            <span class="trend-tag">급상승</span>
+            <b>쉬바나</b>
+            <p>패치 수혜 후보. 빌드가 갈리는 챔피언이라 전적 확인 가치가 큽니다.</p>
+          </div>
+          <div class="meta-card">
+            <span class="trend-tag">솔랭 추천</span>
+            <b>정글</b>
+            <p>초반 퀘스트 변화와 오브젝트 판단이 승패를 크게 흔들 수 있습니다.</p>
+          </div>
+          <div class="meta-card">
+            <span class="trend-tag">주의</span>
+            <b>새 빌드 실험</b>
+            <p>패치 직후엔 승률보다 숙련도와 최근 폼을 같이 보는 게 좋습니다.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hub-panel">
+        <div class="hub-head">
+          <span>인기 매치업 검색</span>
+          <small>곧 상대법 카드로 확장</small>
+        </div>
+        <div class="matchup-list">
+          <div class="matchup-card">
+            <b>탑: 라인전 압박형 vs 성장형</b>
+            <p>초반 CS 차이보다 10분 이후 사이드 운영까지 같이 확인하세요.</p>
+          </div>
+          <div class="matchup-card">
+            <b>정글: 갱킹형 vs 성장형</b>
+            <p>인게임 분석에서 양팀 정글 승률과 모스트 픽 여부를 먼저 보세요.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hub-panel">
+        <div class="hub-head">
+          <span>검색하면 바로 보는 것</span>
+          <small>전적 + LIVE 분석</small>
+        </div>
+        <div class="matchup-list">
+          <div class="matchup-card">
+            <b>연승/연패 흐름</b>
+            <p>프로필 옆 배지로 최근 분위기를 바로 확인합니다.</p>
+          </div>
+          <div class="matchup-card">
+            <b>팀 전력 비교</b>
+            <p>LIVE 게임이면 양 팀 평균 승률, 모스트 픽, 위험도를 비교합니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="championLab" class="champion-lab">
+      <div class="hub-panel">
+        <div class="hub-head">
+          <span>챔피언 분석</span>
+          <small>서버/티어/포지션별 메타 보기</small>
+        </div>
+        <div class="lab-toolbar">
+          <input id="champSearch" type="text" placeholder="챔피언 검색" oninput="resetChampionPage()">
+          <select id="serverFilter" onchange="resetChampionPage()">
+            <option value="KR">KR</option>
+            <option value="NA">NA</option>
+            <option value="EUW">EUW</option>
+            <option value="JP">JP</option>
+          </select>
+          <select id="tierFilter" onchange="resetChampionPage()">
+            <option value="Emerald+">Emerald+</option>
+            <option value="Platinum+">Platinum+</option>
+            <option value="Gold+">Gold+</option>
+            <option value="Diamond+">Diamond+</option>
+          </select>
+          <select id="positionFilter" onchange="resetChampionPage()">
+            <option value="ALL">전체 포지션</option>
+            <option value="TOP">탑</option>
+            <option value="JUNGLE">정글</option>
+            <option value="MIDDLE">미드</option>
+            <option value="BOTTOM">원딜</option>
+            <option value="UTILITY">서폿</option>
+          </select>
+        </div>
+      </div>
+      <div class="lab-grid">
+        <div class="champion-table">
+          <div class="hub-head">
+            <span>챔피언 티어</span>
+            <small>승률 / 픽률 / 밴율</small>
+          </div>
+          <div id="championRows"></div>
+        </div>
+        <div class="counter-panel">
+          <div class="hub-head">
+            <span id="counterTitle">상대하기 어려운 챔피언</span>
+            <small>카운터 매치업</small>
+          </div>
+          <div id="counterBody" class="counter-body"></div>
+        </div>
+      </div>
     </div>
 
     <div id="card-view">
@@ -164,15 +671,19 @@
             <div class="name-wrapper">
               <h2 id="pName"></h2>
               <div id="live" class="ingame-badge" style="display:none">LIVE</div>
+              <div id="streakBadge" class="streak-badge streak-none" style="display:none"></div>
             </div>
             <p id="pLevel" style="color:#a09480; font-size: 1.1rem; margin-top: 4px;"></p>
           </div>
+          <button id="favoriteBtn" class="favorite-btn" type="button" onclick="toggleCurrentFavorite()" title="즐겨찾기">☆</button>
         </div>
 
         <div id="gameAnalysis" class="current-game"></div>
 
-        <div class="section-title">최근 20게임 요약</div>
+        <div class="section-title">최근 경기 요약</div>
         <div id="recentSummary" class="summary-grid"></div>
+        <div class="section-title">최근 경기 상세 분석</div>
+        <div id="deepAnalysis" class="analysis-grid"></div>
         <div class="section-title">최근 5경기 KDA</div>
         <div id="matches" class="match-row"></div>
         <div id="rankList"></div>
@@ -184,9 +695,15 @@
 
   <script>
     let hasInteracted = false;
-    const audio = document.getElementById('bgm');
+    let ambientBgm = null;
+    const BGM_TARGET_VOLUME = 0.032;
     const API_BASE = location.protocol === 'file:' || location.port !== '3000' ? 'http://localhost:3000' : '';
     let ddragonVersion = '16.9.1';
+    let selectedChampion = '';
+    let currentProfile = null;
+    let championMeta = [];
+    let championPage = 1;
+    const CHAMPIONS_PER_PAGE = 15;
 
     function escapeHtml(value) {
       return String(value ?? '').replace(/[&<>"']/g, ch => ({
@@ -207,9 +724,440 @@
       img.style.visibility = 'hidden';
     }
 
+    function startHealingBgm() {
+      if (hasInteracted) return;
+      hasInteracted = true;
+
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+
+      const ctx = new AudioCtx();
+      const master = ctx.createGain();
+      const toneFilter = ctx.createBiquadFilter();
+      const melody = [523.25, 659.25, 783.99, 659.25, 587.33, 659.25, 880.00, 783.99, 659.25, 587.33, 523.25, 659.25];
+      const harmony = [329.63, 392.00, 493.88, 392.00];
+      let step = 0;
+
+      master.gain.value = 0;
+      toneFilter.type = 'lowpass';
+      toneFilter.frequency.value = 2400;
+      toneFilter.Q.value = 0.35;
+      toneFilter.connect(master);
+      master.connect(ctx.destination);
+      master.gain.linearRampToValueAtTime(BGM_TARGET_VOLUME, ctx.currentTime + 1.8);
+
+      harmony.forEach((freq, index) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const pan = ctx.createStereoPanner();
+        const lfo = ctx.createOscillator();
+        const lfoGain = ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        osc.detune.value = index % 2 ? 3 : -2;
+        gain.gain.value = 0.008;
+        pan.pan.value = [-0.48, -0.16, 0.18, 0.46][index] || 0;
+        lfo.type = 'sine';
+        lfo.frequency.value = 0.025 + index * 0.01;
+        lfoGain.gain.value = 0.003;
+
+        lfo.connect(lfoGain);
+        lfoGain.connect(gain.gain);
+        osc.connect(gain);
+        gain.connect(pan);
+        pan.connect(toneFilter);
+        osc.start();
+        lfo.start();
+      });
+
+      function playPluck(freq, startTime, volume, duration, panValue) {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const pan = ctx.createStereoPanner();
+
+        osc.type = 'triangle';
+        osc.frequency.value = freq;
+        pan.pan.value = panValue;
+        gain.gain.setValueAtTime(0, startTime);
+        gain.gain.linearRampToValueAtTime(volume, startTime + 0.025);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+
+        osc.connect(gain);
+        gain.connect(pan);
+        pan.connect(toneFilter);
+        osc.start(startTime);
+        osc.stop(startTime + duration + 0.04);
+      }
+
+      function playPattern() {
+        const now = ctx.currentTime;
+        const note = melody[step % melody.length];
+        const bass = harmony[Math.floor((step % melody.length) / 3) % harmony.length];
+        const pan = step % 2 ? 0.22 : -0.22;
+
+        playPluck(note, now, 0.035, 0.34, pan);
+        if (step % 2 === 0) playPluck(note * 1.5, now + 0.18, 0.016, 0.26, -pan);
+        if (step % 4 === 0) playPluck(bass, now + 0.02, 0.013, 0.42, -0.05);
+        step += 1;
+      }
+
+      const patternTimer = setInterval(playPattern, 520);
+      playPattern();
+      ambientBgm = { ctx, master, patternTimer };
+    }
+
+    function armSiteBgm() {
+      const start = () => startHealingBgm();
+      ['pointerdown', 'keydown', 'touchstart'].forEach(type => {
+        window.addEventListener(type, start, { once: true, passive: true });
+      });
+    }
+
     function rankLabel(rank) {
       if (!rank || rank.tier === 'UNRANKED') return 'UNRANKED';
       return `${rank.tier} ${rank.rank}`;
+    }
+
+    function setLoading(isLoading) {
+      document.getElementById('searchBtn').disabled = isLoading;
+      document.getElementById('searchBtn').innerText = isLoading ? '분석 중...' : '조회하기';
+      document.getElementById('loadingPanel').style.display = isLoading ? 'block' : 'none';
+    }
+
+    function setActiveTab(tab) {
+      document.getElementById('homeTab').classList.toggle('active', tab === 'home');
+      document.getElementById('championTab').classList.toggle('active', tab === 'champion');
+    }
+
+    function clearSearchInputs() {
+      document.getElementById('iName').value = '';
+      document.getElementById('iTag').value = '';
+      updateClearButtons();
+    }
+
+    function clearInput(id) {
+      document.getElementById(id).value = '';
+      updateClearButtons();
+    }
+
+    function updateClearButtons() {
+      document.getElementById('clearName').style.display = document.getElementById('iName').value ? 'block' : 'none';
+      document.getElementById('clearTag').style.display = document.getElementById('iTag').value ? 'block' : 'none';
+    }
+
+    function showHome() {
+      setActiveTab('home');
+      clearSearchInputs();
+      document.getElementById('searchShell').style.display = 'grid';
+      document.getElementById('homeHub').style.display = 'grid';
+      document.getElementById('championLab').style.display = 'none';
+      document.getElementById('card-view').style.display = 'none';
+      renderHistory();
+      renderFavorites();
+    }
+
+    function showSearchResultView() {
+      setActiveTab('home');
+      document.getElementById('searchShell').style.display = 'grid';
+      document.getElementById('homeHub').style.display = 'none';
+      document.getElementById('championLab').style.display = 'none';
+      document.getElementById('card-view').style.display = 'flex';
+      renderHistory();
+      renderFavorites();
+    }
+
+    function showChampionLab() {
+      setActiveTab('champion');
+      document.getElementById('searchShell').style.display = 'none';
+      document.getElementById('homeHub').style.display = 'none';
+      document.getElementById('card-view').style.display = 'none';
+      document.getElementById('championLab').style.display = 'block';
+      renderChampionLab();
+    }
+
+    function renderChampionLab() {
+      const search = document.getElementById('champSearch')?.value.trim().toLowerCase() || '';
+      const position = document.getElementById('positionFilter')?.value || 'ALL';
+      const server = document.getElementById('serverFilter')?.value || 'KR';
+      const tier = document.getElementById('tierFilter')?.value || 'Emerald+';
+      const serverOffset = { KR: 0.7, NA: -0.5, EUW: 0.2, JP: -0.8 }[server] || 0;
+      const tierOffset = { 'Diamond+': 0.9, 'Emerald+': 0.4, 'Platinum+': -0.1, 'Gold+': -0.7 }[tier] || 0;
+      const pickOffset = { KR: 1.2, NA: -0.8, EUW: 0.5, JP: -1.0 }[server] || 0;
+      const banOffset = { 'Diamond+': 2.4, 'Emerald+': 1.1, 'Platinum+': 0.1, 'Gold+': -0.8 }[tier] || 0;
+      const rows = championMeta
+        .filter(c => (position === 'ALL' || c.role === position) && c.name.toLowerCase().includes(search))
+        .map(c => ({
+          ...c,
+          adjustedWinRate: Number((c.winRate + serverOffset + tierOffset).toFixed(1)),
+          adjustedPickRate: Math.max(0.1, Number((c.pickRate + pickOffset).toFixed(1))),
+          adjustedBanRate: Math.max(0.1, Number((c.banRate + banOffset).toFixed(1)))
+        }))
+        .sort((a, b) => b.adjustedWinRate - a.adjustedWinRate);
+
+      const totalPages = Math.max(1, Math.ceil(rows.length / CHAMPIONS_PER_PAGE));
+      championPage = Math.min(championPage, totalPages);
+      const pageRows = rows.slice((championPage - 1) * CHAMPIONS_PER_PAGE, championPage * CHAMPIONS_PER_PAGE);
+
+      if (!rows.some(c => c.name === selectedChampion) && rows[0]) selectedChampion = rows[0].name;
+
+      document.getElementById('championRows').innerHTML = pageRows.map((c, index) => `
+        <div class="champ-row ${c.name === selectedChampion ? 'selected' : ''}" onclick="selectChampion('${escapeHtml(c.name)}')">
+          <div class="champ-rank">#${(championPage - 1) * CHAMPIONS_PER_PAGE + index + 1}</div>
+          <img src="${championIcon(c.id)}" onerror="hideBrokenImage(this)" alt="">
+          <div class="champ-main">
+            <b>${escapeHtml(c.name)} · ${escapeHtml(c.tier)}티어</b>
+            <span>${escapeHtml(roleLabel(c.role))} · ${escapeHtml(server)} ${escapeHtml(tier)}</span>
+          </div>
+          <div>${c.adjustedWinRate}%</div>
+          <div>${c.adjustedPickRate}%</div>
+          <div>${c.adjustedBanRate}%</div>
+        </div>
+      `).join('') + renderPagination(totalPages) || '<div class="empty-live">조건에 맞는 챔피언이 없습니다.</div>';
+
+      renderCounters(rows.find(c => c.name === selectedChampion) || rows[0]);
+    }
+
+    function resetChampionPage() {
+      championPage = 1;
+      renderChampionLab();
+    }
+
+    function setChampionPage(page) {
+      championPage = page;
+      renderChampionLab();
+    }
+
+    function renderPagination(totalPages) {
+      if (totalPages <= 1) return '';
+      return `
+        <div class="pagination">
+          ${Array.from({ length: totalPages }).map((_, index) => {
+            const page = index + 1;
+            return `<button class="page-btn ${page === championPage ? 'active' : ''}" type="button" onclick="setChampionPage(${page})">${page}</button>`;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    function roleLabel(role) {
+      return { TOP: '탑', JUNGLE: '정글', MIDDLE: '미드', BOTTOM: '원딜', UTILITY: '서폿' }[role] || '전체';
+    }
+
+    function inferRole(champion) {
+      const tags = champion.tags || [];
+      if (tags.includes('Marksman')) return 'BOTTOM';
+      if (tags.includes('Support')) return 'UTILITY';
+      if (tags.includes('Assassin') || tags.includes('Mage')) return 'MIDDLE';
+      if (tags.includes('Tank') || tags.includes('Fighter')) return 'TOP';
+      return 'JUNGLE';
+    }
+
+    function statSeed(text) {
+      return String(text).split('').reduce((sum, ch) => sum + ch.charCodeAt(0), 0);
+    }
+
+    function buildChampionMeta(champions) {
+      championMeta = champions.map(champ => {
+        const seed = statSeed(champ.id);
+        const role = inferRole(champ);
+        const winRate = Number((48 + (seed % 55) / 10).toFixed(1));
+        const pickRate = Number((1.5 + (seed % 120) / 10).toFixed(1));
+        const banRate = Number((0.5 + (seed % 90) / 10).toFixed(1));
+        const tier = winRate >= 52 ? 'S' : winRate >= 50.5 ? 'A' : winRate >= 49 ? 'B' : 'C';
+        return {
+          name: champ.name,
+          id: champ.id,
+          role,
+          tier,
+          winRate,
+          pickRate,
+          banRate,
+          trend: Number((((seed % 30) - 12) / 10).toFixed(1)),
+          counters: []
+        };
+      });
+      selectedChampion = championMeta[0]?.name || '';
+    }
+
+    async function loadChampionMeta() {
+      try {
+        const res = await fetch(`${API_BASE}/api/champions`);
+        const d = await res.json();
+        ddragonVersion = d.ddragonVersion || ddragonVersion;
+        buildChampionMeta(d.champions || []);
+      } catch (e) {
+        championMeta = [];
+      }
+    }
+
+    async function loadHomeMeta() {
+      try {
+        const res = await fetch(`${API_BASE}/api/home-meta`);
+        const d = await res.json();
+        ddragonVersion = d.ddragonVersion || ddragonVersion;
+        document.querySelector('#homeHub .hub-head span').innerText = `최신 패치 ${d.patch} 요약`;
+        document.querySelector('#homeHub .hub-link').href = d.patchUrl;
+        const patchGrid = document.querySelector('.patch-grid');
+        patchGrid.innerHTML = (d.cards || []).map(card => `
+          <div class="patch-card">
+            <div class="change-title"><span class="arrow-${card.type === 'up' ? 'up' : card.type === 'down' ? 'down' : 'neutral'}">${card.type === 'up' ? '▲' : card.type === 'down' ? '▼' : '◆'}</span> ${escapeHtml(card.title)}</div>
+            <p>${escapeHtml(card.text)}</p>
+          </div>
+        `).join('');
+      } catch (e) {}
+    }
+
+    function selectChampion(name) {
+      selectedChampion = name;
+      renderChampionLab();
+    }
+
+    function renderCounters(champion) {
+      const body = document.getElementById('counterBody');
+      if (!champion) {
+        document.getElementById('counterTitle').innerText = '상대하기 어려운 챔피언';
+        body.innerHTML = '<div class="empty-live">챔피언을 선택해주세요.</div>';
+        return;
+      }
+      document.getElementById('counterTitle').innerText = `${champion.name} 카운터`;
+      const fallbackCounters = championMeta
+        .filter(c => c.role === champion.role && c.name !== champion.name)
+        .sort((a, b) => b.adjustedWinRate - a.adjustedWinRate)
+        .slice(0, 3)
+        .map(c => c.name);
+      const counters = champion.counters?.length ? champion.counters : fallbackCounters;
+      body.innerHTML = `
+        <div class="matchup-card">
+          <b>${escapeHtml(champion.name)} 요약</b>
+          <p>승률 ${champion.adjustedWinRate || champion.winRate}% · 픽률 ${champion.adjustedPickRate || champion.pickRate}% · 밴율 ${champion.adjustedBanRate || champion.banRate}% · 최근 변화 ${champion.trend > 0 ? '+' : ''}${champion.trend}%</p>
+        </div>
+        ${counters.map((name, index) => `
+          <div class="counter-chip">
+            <span>${index + 1}. ${escapeHtml(name)}</span>
+            <span class="${index === 0 ? 'stat-down' : ''}">난이도 ${index === 0 ? '높음' : '주의'}</span>
+          </div>
+        `).join('')}
+        <div class="lab-muted">현재는 샘플 메타 데이터입니다. 나중에 통계 API를 붙이면 실제 서버별 승률/픽률로 교체할 수 있습니다.</div>
+      `;
+    }
+
+    function loadHistory() {
+      try {
+        return JSON.parse(localStorage.getItem('lolSearchHistory') || '[]');
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function loadFavorites() {
+      try {
+        return JSON.parse(localStorage.getItem('lolFavorites') || '[]');
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveHistory(name, tag) {
+      const key = `${name}#${tag}`;
+      const next = [{ name, tag, key }, ...loadHistory().filter(item => item.key !== key)].slice(0, 6);
+      localStorage.setItem('lolSearchHistory', JSON.stringify(next));
+      renderHistory();
+    }
+
+    function removeHistory(key) {
+      localStorage.setItem('lolSearchHistory', JSON.stringify(loadHistory().filter(item => item.key !== key)));
+      renderHistory();
+    }
+
+    function isFavorite(key) {
+      return loadFavorites().some(item => item.key === key);
+    }
+
+    function saveFavorites(favorites) {
+      localStorage.setItem('lolFavorites', JSON.stringify(favorites));
+      renderFavorites();
+      updateFavoriteButton();
+    }
+
+    function toggleFavorite(name, tag) {
+      const key = `${name}#${tag}`;
+      const favorites = loadFavorites();
+      if (favorites.some(item => item.key === key)) {
+        saveFavorites(favorites.filter(item => item.key !== key));
+      } else {
+        saveFavorites([{ name, tag, key }, ...favorites].slice(0, 10));
+      }
+    }
+
+    function toggleCurrentFavorite() {
+      if (!currentProfile) return;
+      toggleFavorite(currentProfile.name, currentProfile.tag);
+    }
+
+    function updateFavoriteButton() {
+      const btn = document.getElementById('favoriteBtn');
+      if (!btn || !currentProfile) return;
+      const active = isFavorite(`${currentProfile.name}#${currentProfile.tag}`);
+      btn.classList.toggle('active', active);
+      btn.innerText = active ? '★' : '☆';
+      btn.title = active ? '즐겨찾기 해제' : '즐겨찾기 등록';
+    }
+
+    function renderHistory() {
+      const history = loadHistory();
+      document.getElementById('historyRow').innerHTML = history.map(item => `
+        <span class="history-chip">
+          <span onclick="searchFromHistory('${escapeHtml(item.name)}', '${escapeHtml(item.tag)}')">${escapeHtml(item.key)}</span>
+          <span class="chip-x" onclick="removeHistory('${escapeHtml(item.key)}')">x</span>
+        </span>
+      `).join('');
+    }
+
+    function renderFavorites() {
+      const favorites = loadFavorites();
+      document.getElementById('favoriteRow').innerHTML = favorites.length ? favorites.map(item => `
+        <span class="history-chip">
+          <span class="chip-star">★</span>
+          <span onclick="searchFromHistory('${escapeHtml(item.name)}', '${escapeHtml(item.tag)}')">${escapeHtml(item.key)}</span>
+          <span class="chip-x" onclick="toggleFavorite('${escapeHtml(item.name)}', '${escapeHtml(item.tag)}')">x</span>
+        </span>
+      `).join('') : '<span class="muted">즐겨찾기한 소환사가 없습니다.</span>';
+    }
+
+    function searchFromHistory(name, tag) {
+      document.getElementById('iName').value = name;
+      document.getElementById('iTag').value = tag;
+      updateClearButtons();
+      performSlideSearch();
+    }
+
+    function renderParticles() {
+      const layer = document.getElementById('particleLayer');
+      const particles = Array.from({ length: 48 }).map((_, index) => {
+        const left = Math.round(Math.random() * 100);
+        const top = Math.round(Math.random() * 100);
+        const duration = 8 + Math.round(Math.random() * 10);
+        const delay = -Math.round(Math.random() * 10);
+        const size = index % 4 === 0 ? 5 : 3;
+        return `<span class="particle" style="left:${left}%; top:${top}%; width:${size}px; height:${size}px; animation-duration:${duration}s; animation-delay:${delay}s;"></span>`;
+      }).join('');
+      const stars = Array.from({ length: 96 }).map((_, index) => {
+        const left = Math.round(Math.random() * 100);
+        const top = Math.round(Math.random() * 100);
+        const duration = 2 + Math.round(Math.random() * 4);
+        const delay = -Math.round(Math.random() * 6);
+        const size = index % 8 === 0 ? 4 : index % 3 === 0 ? 3 : 2;
+        return `<span class="star" style="left:${left}%; top:${top}%; width:${size}px; height:${size}px; animation-duration:${duration}s; animation-delay:${delay}s;"></span>`;
+      }).join('');
+      const shootingStars = Array.from({ length: 6 }).map((_, index) => {
+        const left = 62 + Math.round(Math.random() * 34);
+        const top = 4 + Math.round(Math.random() * 56);
+        const duration = 6 + Math.round(Math.random() * 5);
+        const delay = index * -3 - Math.round(Math.random() * 3);
+        return `<span class="shooting-star" style="left:${left}%; top:${top}%; animation-duration:${duration}s; animation-delay:${delay}s;"></span>`;
+      }).join('');
+      layer.innerHTML = particles + stars + shootingStars;
     }
 
     function renderPowerCompare(currentGame) {
@@ -272,7 +1220,7 @@
               <img class="champ-icon" src="${championIcon(p.champion?.id)}" onerror="hideBrokenImage(this)" alt="">
               <div>
                 <div class="player-name">${escapeHtml(p.name)}${p.tag ? `#${escapeHtml(p.tag)}` : ''}</div>
-                <div class="champ-name">${escapeHtml(p.champion?.name || '알 수 없음')}</div>
+                <div class="champ-name">${escapeHtml(p.champion?.name || '알 수 없음')}${p.nameStatus && p.nameStatus !== 'ok' ? ` · ${escapeHtml(p.nameReason || '이름 조회 불가')}` : ''}</div>
               </div>
               <div class="player-rank">
                 <div class="rank-text">${escapeHtml(rankLabel(p.rank))}</div>
@@ -303,6 +1251,7 @@
 
       wrap.innerHTML = `
         <div class="section-title">현재 게임 분석</div>
+        <div class="muted" style="margin-bottom:8px">참가자 ${currentGame.debug?.rawCount || 0}명 · 블루 ${currentGame.debug?.blueCount || 0}명 · 레드 ${currentGame.debug?.redCount || 0}명</div>
         ${renderPowerCompare(currentGame)}
         <div class="team-grid">${teamHtml}</div>
       `;
@@ -328,14 +1277,55 @@
           <div class="summary-sub">${summary.avgKills}/${summary.avgDeaths}/${summary.avgAssists}</div>
         </div>
         <div class="summary-card">
-          <div class="summary-label">최근 폼</div>
-          <div class="summary-value">${summary.winRate >= 60 ? '좋음' : summary.winRate >= 45 ? '보통' : '주의'}</div>
-          <div class="summary-sub">${summary.winRate >= 60 ? '상승세입니다' : summary.winRate >= 45 ? '무난한 흐름입니다' : '최근 패배가 많습니다'}</div>
+          <div class="summary-label">현재 흐름</div>
+          <div class="summary-value">${escapeHtml(summary.streak?.label || '기록 없음')}</div>
+          <div class="summary-sub">${summary.streak?.type === 'win' ? '연승 흐름입니다' : summary.streak?.type === 'loss' ? '분위기 전환 필요' : '최근 기록 없음'}</div>
         </div>
         <div class="summary-card">
           <div class="summary-label">많이 한 챔피언</div>
           <div class="summary-value">${most ? escapeHtml(most.name) : '-'}</div>
-          <div class="summary-sub">${most ? `${most.games}게임 · ${most.wins}승` : '정보 없음'}</div>
+          <div class="summary-sub">${most ? `${most.games}게임 · 승률 ${most.winRate}%` : '정보 없음'}</div>
+        </div>
+      `;
+    }
+
+    function renderDeepAnalysis(summary) {
+      const wrap = document.getElementById('deepAnalysis');
+      if (!summary || !summary.count) {
+        wrap.innerHTML = '<div class="empty-live" style="grid-column:1/-1">상세 분석 정보가 없습니다.</div>';
+        return;
+      }
+
+      const championRows = (summary.championStats || []).map(c => `
+        <div class="champ-stat-row">
+          <img src="${championIcon(c.id)}" onerror="hideBrokenImage(this)" alt="">
+          <div>
+            <div class="champ-stat-name">${escapeHtml(c.name)}</div>
+            <div class="muted">${c.games}게임 · ${c.wins}승 ${c.losses}패</div>
+          </div>
+          <div>${c.winRate}%</div>
+          <div>KDA ${c.avgKda}</div>
+        </div>
+      `).join('');
+
+      const positionRows = (summary.positionStats || []).map(p => `
+        <div class="position-row">
+          <div class="position-head">
+            <span>${escapeHtml(p.label)}</span>
+            <span>${p.games}게임 · 승률 ${p.winRate}%</span>
+          </div>
+          <div class="position-bar"><div class="position-fill" style="width:${p.pickRate}%"></div></div>
+        </div>
+      `).join('');
+
+      wrap.innerHTML = `
+        <div class="analysis-panel">
+          <div class="panel-head">챔피언별 성적</div>
+          ${championRows || '<div class="empty-live">챔피언 기록이 없습니다.</div>'}
+        </div>
+        <div class="analysis-panel">
+          <div class="panel-head">라인 비율</div>
+          ${positionRows || '<div class="empty-live">라인 기록이 없습니다.</div>'}
         </div>
       `;
     }
@@ -348,23 +1338,10 @@
 
       if (!name || !tag) return alert('소환사명과 태그를 입력해주세요!');
 
-      if (!hasInteracted) {
-        audio.volume = 0;
-        audio.play().then(() => {
-          hasInteracted = true;
-          let vol = 0;
-          const fadeIn = setInterval(() => {
-            if (vol < 0.15) {
-              vol += 0.01;
-              audio.volume = vol;
-            } else {
-              clearInterval(fadeIn);
-            }
-          }, 100);
-        }).catch(e => console.log(e));
-      }
+      startHealingBgm();
 
-      view.style.display = 'flex';
+      setLoading(true);
+      showSearchResultView();
       if (card.classList.contains('active')) {
         card.classList.remove('active');
         card.classList.add('slide-out');
@@ -384,9 +1361,18 @@
         document.getElementById('pIcon').src = d.iconUrl;
         document.getElementById('pName').innerText = `${d.name}#${d.tag}`;
         document.getElementById('pLevel').innerText = `Level ${d.level}`;
+        currentProfile = { name: d.name, tag: d.tag };
+        updateFavoriteButton();
+
+        const streak = d.recentSummary?.streak;
+        const streakBadge = document.getElementById('streakBadge');
+        streakBadge.style.display = streak?.count ? 'inline-block' : 'none';
+        streakBadge.className = `streak-badge streak-${streak?.type || 'none'}`;
+        streakBadge.innerText = streak?.label || '';
 
         renderCurrentGame(d.currentGame, d.name, d.tag);
         renderRecentSummary(d.recentSummary);
+        renderDeepAnalysis(d.recentSummary);
 
         document.getElementById('matches').innerHTML = d.lastGames.filter(Boolean).slice(0, 5).map(g => `
           <div class="match-box ${g.win ? 'win-box' : 'loss-box'}">
@@ -423,14 +1409,25 @@
           </div>
         `).join('');
 
+        saveHistory(d.name, d.tag);
         setTimeout(() => {
           card.classList.remove('slide-out');
           card.classList.add('active');
         }, 50);
       } catch (e) {
         alert(`조회 실패: ${e.message}`);
+      } finally {
+        setLoading(false);
       }
     }
+
+    armSiteBgm();
+    renderParticles();
+    renderHistory();
+    renderFavorites();
+    showHome();
+    loadHomeMeta();
+    loadChampionMeta();
   </script>
 </body>
 </html>
